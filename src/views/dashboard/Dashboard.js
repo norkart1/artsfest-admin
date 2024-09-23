@@ -49,7 +49,7 @@ import WidgetsDropdown from '../widgets/WidgetsDropdown'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-import { CrudTeamContext } from '../../Context/brokerContext'
+import { CrudTeamContext } from '../../Context/teamContext'
 
 const Dashboard = () => {
   const { fetchTeamData  } = useContext(CrudTeamContext);

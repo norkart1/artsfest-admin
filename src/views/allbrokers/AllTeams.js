@@ -10,7 +10,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cibSuperuser } from '@coreui/icons'
-import { CrudTeamContext } from '../../Context/brokerContext'
+import { CrudTeamContext } from '../../Context/teamContext'
 import Pagination from 'react-js-pagination' // Import pagination component
 
 import Skeleton from 'react-loading-skeleton'

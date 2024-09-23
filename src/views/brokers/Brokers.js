@@ -16,7 +16,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import AddBrokerForm from './addBrokers'
 import { BrokerSearch } from './searchBroker'
 import { BrokerCard } from './brokerCard'
-import { CrudTeamContext } from '../../Context/brokerContext'
+import { CrudTeamContext } from '../../Context/teamContext'
 import { PlusOne } from '@mui/icons-material'
 
 const Page = () => {

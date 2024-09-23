@@ -33,7 +33,7 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Manage Brokers',
+    name: 'Manage Teams',
     to: '/brokers',
     icon: <CIcon icon={cibAsana} customClassName="nav-icon" />,
   },

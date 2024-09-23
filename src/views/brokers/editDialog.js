@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import { cilDelete } from '@coreui/icons'
 
-import { CrudTeamContext } from '../../Context/brokerContext'
+import { CrudTeamContext } from '../../Context/teamContext'
 import { Delete, Image } from '@mui/icons-material'
 
 const EditDialog = ({ brokersData, setOpen, open }) => {
