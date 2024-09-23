@@ -1,12 +1,12 @@
 import { cilSearch } from '@coreui/icons'
 import { Card, InputAdornment, OutlinedInput, SvgIcon } from '@mui/material'
 
-export const BrokerSearch = ({ handleSearchChange }) => (
+export const TeamSearch = ({ handleSearchChange }) => (
   <Card sx={{ p: 2 }}>
     <OutlinedInput
       defaultValue=""
       fullWidth
-      placeholder="Search Broker"
+      placeholder="Search Team"
       onChange={handleSearchChange}
       startAdornment={
         <InputAdornment position="start">

@@ -13,14 +13,14 @@ import {
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-import AddBrokerForm from './addBrokers'
-import { BrokerSearch } from './searchBroker'
-import { BrokerCard } from './brokerCard'
+import AddBrokerForm from './addTeam'
+import { TeamSearch } from './searchTeam'
+import { TeamCard } from './TeamCard'
 import { CrudTeamContext } from '../../Context/teamContext'
 import { PlusOne } from '@mui/icons-material'
 
 const Page = () => {
-  const { fetchTeamData , brokers } = useContext(CrudTeamContext)
+  const { fetchTeamData , teams } = useContext(CrudTeamContext)
   const rowsPerPage = 6
   const [page, setPage] = useState(0)
   const [open, setOpen] = useState(false)
@@ -76,7 +76,7 @@ const Page = () => {
           <Stack spacing={3}>
             <Stack direction="row" justifyContent="space-between" spacing={4}>
               <Stack spacing={1}>
-                <Typography variant="h4">Brokers</Typography>
+                <Typography variant="h4">Teams</Typography>
               </Stack>
               <div>
                 <Button
@@ -88,7 +88,7 @@ const Page = () => {
                 </Button>
               </div>
             </Stack>
-            <BrokerSearch handleSearchChange={handleSearchChange} />
+            <TeamSearch handleSearchChange={handleSearchChange} />
             <Grid container spacing={3}>
 
               {isLoading ? (
@@ -108,7 +108,7 @@ const Page = () => {
                 // Render actual data once it's loaded
                 displayedBrokers.map((broker) => (
                   <Grid xs={12} md={6} lg={4} key={broker._id}>
-                    <BrokerCard broker={broker} />
+                    <TeamCard broker={broker} />
                   </Grid>
                 ))
               )}

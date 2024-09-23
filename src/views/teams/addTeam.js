@@ -235,7 +235,7 @@ const AddBrokerForm = ({ open, setOpen }) => {
         <DialogContent>
           {/* Edit form section */}
           <Typography variant="h6" gutterBottom>
-            Add Broker
+            Add Team
           </Typography>
           <form onSubmit={handleSubmit} method="POST" encType="multipart/form-data">
             <Grid container spacing={2}>

@@ -59,10 +59,10 @@ const AppHeader = ({ handleLogout }) => {
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="/brokers">Manage Teams</CNavLink>
+            <CNavLink href="/teams">Manage Teams</CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="/allbrokers">All Teams</CNavLink>
+            <CNavLink href="/allteams">All Teams</CNavLink>
           </CNavItem>
         </CHeaderNav>
         {/* <CHeaderNav className="ms-auto">

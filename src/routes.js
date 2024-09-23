@@ -3,8 +3,8 @@ import React from 'react'
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
-const Brokers = React.lazy(() => import('./views/brokers/Brokers'))
-const AllBrokers = React.lazy(() => import('./views/allbrokers/AllBrokers'))
+const Teams = React.lazy(() => import('./views/teams/Teams'))
+const AllTeams = React.lazy(() => import('./views/allTeams/AllTeams'))
 
 // Base
 const Accordion = React.lazy(() => import('./views/base/accordion/Accordion'))
@@ -55,8 +55,8 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
-  { path: '/brokers', name: 'Brokers', element: Brokers },
-  { path: '/allbrokers', name: 'AllBrokers', element: AllBrokers },
+  { path: '/teams', name: 'Teams', element: Teams },
+  { path: '/allteams', name: 'AllTeams', element: AllTeams },
 
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },

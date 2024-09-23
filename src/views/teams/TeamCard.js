@@ -26,7 +26,7 @@ const getRankColor = (rank) => {
   }
 }
 
-export const BrokerCard = (props) => {
+export const TeamCard = (props) => {
   const { broker } = props
 
   const [open, setOpen] = useState(false)
@@ -142,6 +142,6 @@ export const BrokerCard = (props) => {
   )
 }
 
-BrokerCard.propTypes = {
+TeamCard.propTypes = {
   broker: PropTypes.object.isRequired,
 }
