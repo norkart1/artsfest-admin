@@ -17,7 +17,7 @@ import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons'
 import { CrudTeamContext } from '../../Context/brokerContext'
 
 const WidgetsDropdown = (props) => {
-  const { fetchBrokerData } = useContext(CrudTeamContext);
+  const { fetchTeamData  } = useContext(CrudTeamContext);
   const [totalBrokers, setTotalBrokers] = useState(0);
   const [brokersData, setBrokersData] = useState([]);
   const [percentageChange, setPercentageChange] = useState(0);
@@ -27,7 +27,7 @@ const WidgetsDropdown = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const fetchedData = await fetchBrokerData()
+      const fetchedData = await fetchTeamData ()
       setBrokersData(fetchedData)
       setTotalBrokers(fetchedData.length)
 
@@ -42,7 +42,7 @@ const WidgetsDropdown = (props) => {
       }
     }
     fetchData()
-  }, [fetchBrokerData, totalBrokers]) // Include totalBrokers in dependency array to recalculate percentage change
+  }, [fetchTeamData , totalBrokers]) // Include totalBrokers in dependency array to recalculate percentage change
 
   useEffect(() => {
     document.documentElement.addEventListener('ColorSchemeChange', () => {

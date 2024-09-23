@@ -52,7 +52,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { CrudTeamContext } from '../../Context/brokerContext'
 
 const Dashboard = () => {
-  const { fetchBrokerData } = useContext(CrudTeamContext);
+  const { fetchTeamData  } = useContext(CrudTeamContext);
   const [brokers, setBrokers] = useState([]);
   const [loading, setIsLoading] = useState(true);
 
@@ -60,14 +60,14 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const fetchedData = await fetchBrokerData();
+      const fetchedData = await fetchTeamData ();
 
       const sortedBrokers = fetchedData.sort((a, b) => a.ranking - b.ranking);
       setBrokers(sortedBrokers);
       setIsLoading(false); // Set isLoading to false after fetching data
     };
     fetchData();
-  }, [fetchBrokerData]); // Make sure to include fetchFranchises in the dependency array
+  }, [fetchTeamData ]); // Make sure to include fetchFranchises in the dependency array
 
    
   return (
