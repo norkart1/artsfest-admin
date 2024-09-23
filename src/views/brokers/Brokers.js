@@ -16,11 +16,11 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import AddBrokerForm from './addBrokers'
 import { BrokerSearch } from './searchBroker'
 import { BrokerCard } from './brokerCard'
-import { CrudBrokerContext } from '../../Context/brokerContext'
+import { CrudTeamContext } from '../../Context/brokerContext'
 import { PlusOne } from '@mui/icons-material'
 
 const Page = () => {
-  const { fetchBrokerData, brokers } = useContext(CrudBrokerContext)
+  const { fetchBrokerData, brokers } = useContext(CrudTeamContext)
   const rowsPerPage = 6
   const [page, setPage] = useState(0)
   const [open, setOpen] = useState(false)

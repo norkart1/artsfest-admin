@@ -10,11 +10,11 @@ import {
 } from '@mui/material'
 import { cilDelete } from '@coreui/icons'
 
-import { CrudBrokerContext } from '../../Context/brokerContext'
+import { CrudTeamContext } from '../../Context/brokerContext'
 import { Delete, Image } from '@mui/icons-material'
 
 const EditDialog = ({ brokersData, setOpen, open }) => {
-  const { editBroker, deleteBroker } = useContext(CrudBrokerContext)
+  const { editBroker, deleteBroker } = useContext(CrudTeamContext)
   const [imagePreview, setImagePreview] = useState(null)
 
   const [nameError, setNameError] = useState('')

@@ -14,10 +14,10 @@ import { getStyle } from '@coreui/utils'
 import { CChartBar, CChartLine } from '@coreui/react-chartjs'
 import CIcon from '@coreui/icons-react'
 import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons'
-import { CrudBrokerContext } from '../../Context/brokerContext'
+import { CrudTeamContext } from '../../Context/brokerContext'
 
 const WidgetsDropdown = (props) => {
-  const { fetchBrokerData } = useContext(CrudBrokerContext);
+  const { fetchBrokerData } = useContext(CrudTeamContext);
   const [totalBrokers, setTotalBrokers] = useState(0);
   const [brokersData, setBrokersData] = useState([]);
   const [percentageChange, setPercentageChange] = useState(0);

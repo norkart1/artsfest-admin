@@ -49,10 +49,10 @@ import WidgetsDropdown from '../widgets/WidgetsDropdown'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-import { CrudBrokerContext } from '../../Context/brokerContext'
+import { CrudTeamContext } from '../../Context/brokerContext'
 
 const Dashboard = () => {
-  const { fetchBrokerData } = useContext(CrudBrokerContext);
+  const { fetchBrokerData } = useContext(CrudTeamContext);
   const [brokers, setBrokers] = useState([]);
   const [loading, setIsLoading] = useState(true);
 

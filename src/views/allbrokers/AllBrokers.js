@@ -10,14 +10,14 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cibSuperuser } from '@coreui/icons'
-import { CrudBrokerContext } from '../../Context/brokerContext'
+import { CrudTeamContext } from '../../Context/brokerContext'
 import Pagination from 'react-js-pagination' // Import pagination component
 
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 function AllBrokers() {
-  const { fetchBrokerData } = useContext(CrudBrokerContext)
+  const { fetchBrokerData } = useContext(CrudTeamContext)
   const [brokers, setBrokers] = useState([])
   const [loading, setIsLoading] = useState(true)
   const [activePage, setActivePage] = useState(1) // State to manage the active page

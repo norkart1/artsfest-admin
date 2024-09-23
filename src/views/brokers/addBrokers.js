@@ -10,10 +10,10 @@ import {
   Grid,
   Box,
 } from '@mui/material'
-import { CrudBrokerContext } from '../../Context/brokerContext'
+import { CrudTeamContext } from '../../Context/brokerContext'
 
 const AddBrokerForm = ({ open, setOpen }) => {
-  const { addBroker } = useContext(CrudBrokerContext)
+  const { addBroker } = useContext(CrudTeamContext)
 
   const [imagePreview, setImagePreview] = useState(null)
   const [nameError, setNameError] = useState('')

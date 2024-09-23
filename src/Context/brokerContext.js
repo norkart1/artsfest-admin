@@ -1,104 +1,104 @@
 import { createContext, useState, useEffect } from 'react'
-import { brokerBaseUrl, imageUrl } from '../Constant/url'
+import { teamBaseUrl, imageUrl } from '../Constant/url'
 import axios from 'axios'
 
 
-export const CrudBrokerContext = createContext()
+export const CrudTeamContext = createContext()
 
 export const CrudProvider = ({ children }) => {
-  const [brokers, setBrokers] = useState([])
+  const [teams, setTeams] = useState([])
 
-  const addBroker = async (userData) => {
+  const addteam = async (userData) => {
     console.log(userData)
     try {
-      const response = await axios.post(`${brokerBaseUrl}/addBroker`, userData)
+      const response = await axios.post(`${teamBaseUrl}/addTeam`, userData)
 
       if (response.status === 200) {
-        // Add the newly created brokers from response data to the state
-        const createdBroker = response.data
-        setBrokers((prevBrokers) => [...prevBrokers, createdBroker])
-        console.log('New Broker added successfully:', createdBroker)
+        // Add the newly created teams from response data to the state
+        const createdTeam = response.data
+        setTeams((prevteams) => [...prevteams, createdTeam])
+        //console.log('New Team added successfully:', createdteam)
       } else {
-        throw new Error('Failed to add new broker')
+        throw new Error('Failed to add new team')
       }
     } catch (error) {
-      console.error('Error adding brokers:', error)
+      console.error('Error adding teams:', error)
     }
   }
 
-  // Function to fetch all Brokers
-  const fetchBrokerData = async () => {
+  // Function to fetch all Teams
+  const fetchTeamData = async () => {
     try {
-      // Make GET request to fetch all brokers
-      const response = await axios.get(`${brokerBaseUrl}/getAllBrokers`)
+      // Make GET request to fetch all teams
+      const response = await axios.get(`${teamBaseUrl}/getAllTeams`)
       if (response.status !== 200) {
-        throw new Error('Failed to fetch brokers')
+        throw new Error('Failed to fetch teams')
       }
 
       // Extract data from response
-      const brokers = response.data
+      const teams = response.data
 
       // Optionally transform data logic
-      const transformedBrokers = brokers.map((broker) => ({
-        ...broker,
-        image: broker.image ? `${imageUrl}/${broker.image}` : null,
-        //createdAt: new Date(broker.createdAt).toLocaleString(),
-        monthYear: new Date(broker.createdAt).toLocaleString('default', { month: 'short' }) + ' ' + new Date(broker.createdAt).getFullYear(),
+      const transformedTeams = teams.map((team) => ({
+        ...teams,
+        image: team.image ? `${imageUrl}/${team.image}` : null,
+        //createdAt: new Date(team.createdAt).toLocaleString(),
+        monthYear: new Date(team.createdAt).toLocaleString('default', { month: 'short' }) + ' ' + new Date(team.createdAt).getFullYear(),
       }))
 
-      return transformedBrokers
+      return transformedTeams
     } catch (error) {
-      console.error('Error fetching brokers:', error)
+      console.error('Error fetching teams:', error)
       throw error // Rethrow the error to handle it where the function is called
     }
   }
 
-  //Function to edit a broker
-  const editBroker = async (brokerId, updatedData) => {
+  //Function to edit a team
+  const editTeam = async (teamId, updatedData) => {
     try {
       // Make PUT request to update franchise
-      const response = await axios.put(`${brokerBaseUrl}/updateBrokerBy/${brokerId}`, updatedData)
+      const response = await axios.put(`${teamBaseUrl}/updateteamBy/${teamId}`, updatedData)
       if (response.status === 200) {
-        const updatedBroker = response.data
+        const updatedteam = response.data
         // Update franchises state with the updated franchise
-        setBrokers((prevFranchises) =>
-          prevFranchises.map((broker) =>
-            broker._id === updatedBroker._id ? updatedBroker : broker,
+        setTeams((prevFranchises) =>
+          prevFranchises.map((team) =>
+            team._id === updatedteam._id ? updatedteam : team,
           ),
         )
-        console.log('Broker updated successfully')
+        console.log('team updated successfully')
       } else {
-        throw new Error('Failed to update Broker')
+        throw new Error('Failed to update team')
       }
     } catch (error) {
-      console.error('Error updating Broker:', error)
+      console.error('Error updating team:', error)
     }
   }
 
-  const deleteBroker = async (brokerId) => {
+  const deleteteam = async (teamId) => {
     try {
-      // Make DELETE request to delete broker
-      const response = await axios.delete(`${brokerBaseUrl}/deleteBrokerBy/${brokerId}`)
+      // Make DELETE request to delete team
+      const response = await axios.delete(`${teamBaseUrl}/deleteteamBy/${teamId}`)
 
       if (response.status === 200) {
-        // Remove the deleted broker from the state
-        setBrokers((prevBrokers) => prevBrokers.filter((broker) => broker._id !== brokerId))
-        console.log('Broker deleted successfully')
+        // Remove the deleted team from the state
+        setTeams((prevteams) => prevteams.filter((team) => team._id !== teamId))
+        console.log('team deleted successfully')
       } else {
-        throw new Error('Failed to delete Broker')
+        throw new Error('Failed to delete team')
       }
     } catch (error) {
-      console.error('Error deleting Broker:', error)
+      console.error('Error deleting team:', error)
     }
   }
 
   const contextValue = {
-    addBroker,
-    brokers,
-    fetchBrokerData,
-    editBroker,
-    deleteBroker,
+    addteam,
+    teams,
+    fetchTeamData,
+    editTeam,
+    deleteteam,
   }
 
-  return <CrudBrokerContext.Provider value={contextValue}>{children}</CrudBrokerContext.Provider>
+  return <CrudTeamContext.Provider value={contextValue}>{children}</CrudTeamContext.Provider>
 }
