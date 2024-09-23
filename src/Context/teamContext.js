@@ -35,6 +35,8 @@ export const CrudProvider = ({ children }) => {
         throw new Error('Failed to fetch teams')
       }
 
+      
+
       // Extract data from response
       const teams = response.data
 
@@ -45,8 +47,9 @@ export const CrudProvider = ({ children }) => {
         //createdAt: new Date(team.createdAt).toLocaleString(),
         monthYear: new Date(team.createdAt).toLocaleString('default', { month: 'short' }) + ' ' + new Date(team.createdAt).getFullYear(),
       }))
+  
 
-      return transformedTeams
+      return response.data
     } catch (error) {
       console.error('Error fetching teams:', error)
       throw error // Rethrow the error to handle it where the function is called

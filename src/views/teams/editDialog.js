@@ -29,8 +29,9 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
     ranking: 0, // Initialize ranking as a number default 0;
     image: null,
     imagePreviewUrl: '',
-    link: '',
-    location: '',
+    score:0,
+    // link: '',
+    // location: '',
   })
 
 
@@ -40,8 +41,8 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
       setFormData({
         name: brokersData.name || "",
         phoneNumber: brokersData.phoneNumber || "",
-        location: brokersData.location || "",
-        link: brokersData.link || "",
+        // location: brokersData.location || "",
+        // link: brokersData.link || "",
         ranking: brokersData.ranking || "",
       });
 
@@ -67,12 +68,12 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
       case 'ranking':
         validateRanking(value)
         break
-      case 'link':
-        validateLink(value)
-        break
-      case 'location':
-        validateLocation(value)
-        break
+      // case 'link':
+      //   validateLink(value)
+      //   break
+      // case 'location':
+      //   validateLocation(value)
+      //   break
       default:
         break
     }
@@ -89,12 +90,12 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
       case 'ranking':
         setRankingError(value.trim() ? '' : 'Ranking is required')
         break
-      case 'location':
-        setLocationError(value.trim() ? '' : 'Location is required')
-        break
-      case 'link':
-        setLinkError(value.trim() ? '' : 'Link is required')
-        break
+      // case 'location':
+      //   setLocationError(value.trim() ? '' : 'Location is required')
+      //   break
+      // case 'link':
+      //   setLinkError(value.trim() ? '' : 'Link is required')
+      //   break
       default:
         break
     }
@@ -118,10 +119,10 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
     e.preventDefault()
     const isNameValid = validateName(formData.name)
     const isRankingValid = validateRanking(formData.ranking)
-    const isLocationValid = validateLocation(formData.location)
-    const isLinkValid = validateLink(formData.link)
+    //const isLocationValid = validateLocation(formData.location)
+    //const isLinkValid = validateLink(formData.link)
 
-    if (!isNameValid || !isRankingValid || !isLocationValid || !isLinkValid) {
+    if (!isNameValid || !isRankingValid ) {
       return
     }
 
@@ -138,8 +139,8 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
       setFormData({
         name: '',
         ranking: '',
-        location: '',
-        link: '',
+        // location: '',
+        // link: '',
         image: null,
       })
 
@@ -225,7 +226,7 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
         <DialogContent>
           {/* Edit form section */}
           <Typography variant="h6" gutterBottom>
-            Edit Broker
+            Edit Team
           </Typography>
           <form encType="multipart/form-data" method="PUT">
             <TextField
@@ -255,7 +256,22 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
             <Typography color="error" variant="body2">
               {rankingError}
             </Typography>
+
             <TextField
+              fullWidth
+              label="Score"
+              name="score"
+              variant="outlined"
+              margin="normal"
+              value={formData.score}
+              type="tel"
+              onBlur={handleBlur}
+              onChange={handleChange}
+            />
+            {/* <Typography color="error" variant="body2">
+              {rankingError}
+            </Typography> */}
+            {/* <TextField
               fullWidth
               label="Location"
               name="location"
@@ -268,8 +284,8 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
             />
             <Typography color="error" variant="body2">
               {locationError}
-            </Typography>
-            <TextField
+            </Typography> */}
+            {/* <TextField
               fullWidth
               label="Link"
               name="link"
@@ -282,7 +298,7 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
             />
             <Typography color="error" variant="body2">
               {linkError}
-            </Typography>
+            </Typography> */}
             <input
               type="file"
               accept="image/*"

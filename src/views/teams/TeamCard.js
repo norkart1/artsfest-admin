@@ -15,6 +15,7 @@ import {
 
 import { Edit } from '@mui/icons-material'
 import EditDialog from './editDialog'
+import { imageUrl } from '../../Constant/url'
 
 const getRankColor = (rank) => {
   if (rank >= 1 && rank <= 3) {
@@ -67,7 +68,7 @@ export const TeamCard = (props) => {
     }}
   >
     <Avatar
-      src={broker.image}
+      src={`${imageUrl}/${broker.image}`}
       variant="square"
       sx={{
         width: '120px',
@@ -80,18 +81,16 @@ export const TeamCard = (props) => {
   <Typography align="center" gutterBottom variant="h5" sx={{ color: '#333', mb: 1 }}>
     {broker.name}
   </Typography>
-  <Typography align="center" variant="body1" sx={{ color: '#666', mb: 1 }}>
-    Phone: {broker.ranking}
-  </Typography>
+  
   <Typography align="center" variant="body1" sx={{ color: '#666', mb: 1 }}>
     Created at: {broker.createdAt}
   </Typography>
-  <Typography align="center" variant="body1" sx={{ color: '#666', mb: 1 }}>
+  {/* <Typography align="center" variant="body1" sx={{ color: '#666', mb: 1 }}>
     Location: {broker.location}
   </Typography>
   <Typography align="center" gutterBottom variant="body1" sx={{ color: '#1976D2', textDecoration: 'underline' }}>
     <a href={broker.link} target="_blank" rel="noopener noreferrer">Visit Website</a>
-  </Typography>
+  </Typography> */}
   <Typography align="center" variant="body1" sx={{ color: getRankColor(broker.rank), fontWeight: 'bold' }}>
     Rank: {broker.ranking}
   </Typography>

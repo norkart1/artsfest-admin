@@ -15,6 +15,7 @@ import Pagination from 'react-js-pagination' // Import pagination component
 
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import { imageUrl } from '../../Constant/url'
 
 function AllBrokers() {
   const { fetchTeamData  } = useContext(CrudTeamContext)
@@ -43,6 +44,8 @@ function AllBrokers() {
   const startIndex = (activePage - 1) * itemsPerPage
   const endIndex = startIndex + itemsPerPage
 
+  brokers.slice(startIndex, endIndex).map((x,y)=>console.log(x))
+
   return (
     <div>
       <CTable align="middle" className="mb-0 border" hover responsive>
@@ -51,11 +54,11 @@ function AllBrokers() {
             <CTableHeaderCell className="bg-body-tertiary text-center">
               <CIcon icon={cibSuperuser} />
             </CTableHeaderCell>
-            <CTableHeaderCell className="bg-body-tertiary">Broker Name</CTableHeaderCell>
-            <CTableHeaderCell className="bg-body-tertiary text-center">Country</CTableHeaderCell>
+            <CTableHeaderCell className="bg-body-tertiary">Team Name</CTableHeaderCell>
+            {/* <CTableHeaderCell className="bg-body-tertiary text-center">Country</CTableHeaderCell> */}
             <CTableHeaderCell className="bg-body-tertiary text-center">Rank</CTableHeaderCell>
             <CTableHeaderCell className="bg-body-tertiary text-center">Score</CTableHeaderCell>
-            <CTableHeaderCell className="bg-body-tertiary text-center">Link</CTableHeaderCell>
+            {/* <CTableHeaderCell className="bg-body-tertiary text-center">Link</CTableHeaderCell> */}
           </CTableRow>
         </CTableHead>
         <CTableBody>
@@ -84,22 +87,22 @@ function AllBrokers() {
             brokers.slice(startIndex, endIndex).map((item, index) => (
               <CTableRow key={index}>
                 <CTableDataCell className="text-center">
-                  <CAvatar size="md" src={item.image} />
+                  <CAvatar size="md" src={`${imageUrl}/${item.image}`} />
                 </CTableDataCell>
                 <CTableDataCell>{item.name}</CTableDataCell>
-                <CTableDataCell className="text-center">{item.location}</CTableDataCell>
+                {/* <CTableDataCell className="text-center">{item.location}</CTableDataCell> */}
                 <CTableDataCell className="text-center">
                   <div className="fw-semibold">{item.ranking}</div>
                 </CTableDataCell>
                 <CTableDataCell className="text-center">
                   <div className="fw-semibold">{item.score}</div>
                 </CTableDataCell>
-                <CTableDataCell className="text-center">
-                  {/* Wrap the link in an anchor tag to make it clickable */}
+                {/* <CTableDataCell className="text-center">
+                  
                   <a href={item.link} target="_blank" rel="noopener noreferrer">
                     {item.link}
                   </a>
-                </CTableDataCell>
+                </CTableDataCell> */}
               </CTableRow>
             ))}
         </CTableBody>

@@ -79,7 +79,7 @@ const WidgetsDropdown = (props) => {
               </span>
             </>
           }
-          title="Total Brokers"
+          title="Total Teams"
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
@@ -98,7 +98,7 @@ const WidgetsDropdown = (props) => {
                 labels: brokersData.map(entry => entry.monthYear),
                 datasets: [
                   {
-                    label: 'Total Brokers',
+                    label: 'Total Teams',
                     backgroundColor: 'transparent',
                     borderColor: 'rgba(255,255,255,.55)',
                     pointBackgroundColor: 'var(--cui-primary)', // Use your primary color here

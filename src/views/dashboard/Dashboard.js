@@ -50,6 +50,7 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 import { CrudTeamContext } from '../../Context/teamContext'
+import { imageUrl } from '../../Constant/url'
 
 const Dashboard = () => {
   const { fetchTeamData  } = useContext(CrudTeamContext);
@@ -77,26 +78,31 @@ const Dashboard = () => {
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader style={{ fontSize:30}}>Top 10 Brokers</CCardHeader>
+            <CCardHeader style={{ fontSize:30}}>Top 10 Teams</CCardHeader>
             <CCardBody>
               
 
               <CTable align="middle" className="mb-0 border" hover responsive>
                 <CTableHead className="text-nowrap">
                   <CTableRow>
+                  <CTableHeaderCell className="bg-body-tertiary">ID</CTableHeaderCell>
                     <CTableHeaderCell className="bg-body-tertiary text-center">
                       <CIcon icon={cibSuperuser} />
                     </CTableHeaderCell>
                     <CTableHeaderCell className="bg-body-tertiary">Broker</CTableHeaderCell>
-                    <CTableHeaderCell className="bg-body-tertiary text-center">
+                    {/* <CTableHeaderCell className="bg-body-tertiary text-center">
                       Country
-                    </CTableHeaderCell>
+                    </CTableHeaderCell> */}
                     {/* <CTableHeaderCell className="bg-body-tertiary">Usage</CTableHeaderCell> */}
                     <CTableHeaderCell className="bg-body-tertiary text-center">
                       Rank
                     </CTableHeaderCell>
-                    {/* <CTableHeaderCell className="bg-body-tertiary">Activity</CTableHeaderCell> */}
-                    <CTableHeaderCell className="bg-body-tertiary text-center">Link</CTableHeaderCell>
+
+                    <CTableHeaderCell className="bg-body-tertiary text-center">
+                      Score
+                    </CTableHeaderCell>
+{/*                     
+                    <CTableHeaderCell className="bg-body-tertiary text-center">Link</CTableHeaderCell> */}
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
@@ -125,20 +131,25 @@ const Dashboard = () => {
   // Render actual data once it's loaded
   brokers.slice(0, 10).map((item, index) => (
     <CTableRow key={index}>
+       <CTableDataCell>{item._id}</CTableDataCell>
       <CTableDataCell className="text-center">
-        <CAvatar size="md" src={item.image} />
+        <CAvatar size="md" src={`${imageUrl}/${item.image}`} />
       </CTableDataCell>
       <CTableDataCell>{item.name}</CTableDataCell>
-      <CTableDataCell className="text-center">{item.location}</CTableDataCell>
+      {/* <CTableDataCell className="text-center">{item.location}</CTableDataCell> */}
       <CTableDataCell className="text-center">
         <div className="fw-semibold">{item.ranking}</div>
       </CTableDataCell>
+
       <CTableDataCell className="text-center">
-      {/* Wrap the link in an anchor tag to make it clickable */}
+        <div className="fw-semibold">{item.score}</div>
+      </CTableDataCell>
+      {/* <CTableDataCell className="text-center">
+       
       <a href={item.link} target="_blank" rel="noopener noreferrer">
         {item.link}
       </a>
-    </CTableDataCell>
+    </CTableDataCell> */}
     </CTableRow>
   ))
 )}

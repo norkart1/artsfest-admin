@@ -20,7 +20,7 @@ import { CrudTeamContext } from '../../Context/teamContext'
 import { PlusOne } from '@mui/icons-material'
 
 const Page = () => {
-  const { fetchTeamData , teams } = useContext(CrudTeamContext)
+  const { fetchTeamData } = useContext(CrudTeamContext)
   const rowsPerPage = 6
   const [page, setPage] = useState(0)
   const [open, setOpen] = useState(false)
@@ -32,16 +32,18 @@ const Page = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const fetchedData = await fetchTeamData ()
+      const fetchedData = await fetchTeamData()
       setBrokersData(fetchedData)
       setIsLoading(false) // Set isLoading to false after fetching data
     }
     fetchData()
   }, [fetchTeamData ]) // Make sure to include fetchFranchises in the dependency array
 
+  console.log('dta',brokersData)
+
   // Filter Brokers based on search query
   const filteredBrokers = brokersData.filter((broker) =>
-    broker.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    broker.name?.toLowerCase().includes(searchQuery.toLowerCase()),
   )
 
   const totalBrokers = filteredBrokers.length

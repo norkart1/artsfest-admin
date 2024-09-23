@@ -13,7 +13,7 @@ import {
 import { CrudTeamContext } from '../../Context/teamContext'
 
 const AddBrokerForm = ({ open, setOpen }) => {
-  const { addBroker } = useContext(CrudTeamContext)
+  const { addteam } = useContext(CrudTeamContext)
 
   const [imagePreview, setImagePreview] = useState(null)
   const [nameError, setNameError] = useState('')
@@ -28,9 +28,9 @@ const AddBrokerForm = ({ open, setOpen }) => {
     ranking: 0, // Initialize ranking as a number default 0;
     image: null,
     imagePreviewUrl: '',
-    link: '',
+   // link: '',
     score: '',
-    location: '',
+    //location: '',
   })
 
   const handleChange = (e) => {
@@ -49,12 +49,12 @@ const AddBrokerForm = ({ open, setOpen }) => {
       case 'ranking':
         validateRanking(value)
         break
-      case 'link':
-        validateLink(value)
-        break
-      case 'location':
-        validateLocation(value)
-        break
+      // case 'link':
+      //   validateLink(value)
+      //   break
+      // case 'location':
+      //   validateLocation(value)
+      //   break
       case 'score':
         validateScore(value)
         break
@@ -70,25 +70,25 @@ const AddBrokerForm = ({ open, setOpen }) => {
     switch (name) {
       case 'name':
         if (!value.trim()) {
-          setNameError('Broker name is required')
+          setNameError('Team name is required')
         }
         break
       case 'ranking':
         if (!value.trim()) {
-          setRankingError('Broker Ranking is required')
+          setRankingError('Team Ranking is required')
         }
         break
-      case 'location':
-        if (!value.trim()) {
-          setLocationError('Broker Location is required')
-        }
-        break
+      // case 'location':
+      //   if (!value.trim()) {
+      //     setLocationError('Broker Location is required')
+      //   }
+      //   break
 
-      case 'link':
-        if (!value.trim()) {
-          setLinkError('Broker Link is required')
-        }
-        break
+      // case 'link':
+      //   if (!value.trim()) {
+      //     setLinkError('Broker Link is required')
+      //   }
+      //   break
 
       default:
         break
@@ -118,11 +118,11 @@ const AddBrokerForm = ({ open, setOpen }) => {
 
     const isNameValid = validateName(formData.name)
     const isRankingValid = validateRanking(formData.ranking)
-    const isLocationValid = validateLocation(formData.location)
-    const isLinkValid = validateLink(formData.link)
+   // const isLocationValid = validateLocation(formData.location)
+   // const isLinkValid = validateLink(formData.link)
     const isScoreValid = validateScore(formData.score)
 
-    if (!isNameValid || !isRankingValid || !isLocationValid || !isLinkValid || !isScoreValid) {
+    if (!isNameValid || !isRankingValid  || !isScoreValid) {
       return
     }
 
@@ -132,21 +132,22 @@ const AddBrokerForm = ({ open, setOpen }) => {
         formDataToSend.append(key, formData[key])
       }
 
-      addBroker(formDataToSend)
+      addteam(formDataToSend)
 
       // Reset form after submission
       setFormData({
         name: '',
         ranking: '',
-        location: '',
-        link: '',
+        score:'',
+        //location: '',
+        //link: '',
         image: null,
       })
 
       setImagePreview(null)
       setOpen(false)
     } catch (error) {
-      console.error('Error adding Broker:', error)
+      console.error('Error adding Team:', error)
     }
   }
 
@@ -154,8 +155,9 @@ const AddBrokerForm = ({ open, setOpen }) => {
     setFormData({
       name: '',
       ranking: '',
-      location: '',
-      link: '',
+      //location: '',
+      score:"",
+      //link: '',
       image: null,
     })
     setImagePreview(null)
@@ -242,7 +244,7 @@ const AddBrokerForm = ({ open, setOpen }) => {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Broker Name"
+                  label="Team Name"
                   name="name"
                   variant="outlined"
                   margin="normal"
@@ -271,7 +273,7 @@ const AddBrokerForm = ({ open, setOpen }) => {
                 </Typography>
               </Grid>
 
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <div>
                   <TextField
                     fullWidth
@@ -303,7 +305,7 @@ const AddBrokerForm = ({ open, setOpen }) => {
                 <Typography color="error" variant="body2">
                   {linkError}
                 </Typography>
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <TextField
                   fullWidth
@@ -352,7 +354,7 @@ const AddBrokerForm = ({ open, setOpen }) => {
                   </Box>
                 </Grid>
               )}
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <DialogActions>
                   <Button onClick={handleClose} variant='outline-danger'>
                     Normal
@@ -364,7 +366,7 @@ const AddBrokerForm = ({ open, setOpen }) => {
                     Warning
                   </Button>
                 </DialogActions>
-              </Grid>
+              </Grid> */}
 
 
 
