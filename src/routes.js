@@ -4,6 +4,7 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 const Teams = React.lazy(() => import('./views/teams/Teams'))
+const ManageProgram = React.lazy(() => import('./views/programs/manageProgram'))
 const AllTeams = React.lazy(() => import('./views/allTeams/AllTeams'))
 
 // Base
@@ -56,7 +57,8 @@ const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/teams', name: 'Teams', element: Teams },
-  { path: '/allteams', name: 'AllTeams', element: AllTeams },
+  { path: '/allteams', name: 'AllTeams', element: AllTeams }, 
+  { path: '/programs', name: 'Programs', element: ManageProgram },
 
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },

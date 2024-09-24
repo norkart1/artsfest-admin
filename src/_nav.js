@@ -11,12 +11,13 @@ import {
   cilPencil,
   cilPuzzle,
   cilSpeedometer,
-  cilStar, cibSuperuser,
+  cilStar,
+  cibSuperuser,
   cibAngellist,
   cibUber,
   cibAboutMe,
   cibAnaconda,
-  cibAsana
+  cibAsana,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -38,7 +39,6 @@ const _nav = [
     icon: <CIcon icon={cibAsana} customClassName="nav-icon" />,
   },
 
-
   {
     component: CNavItem,
     name: 'All Teams',
@@ -46,8 +46,12 @@ const _nav = [
     icon: <CIcon icon={cibSuperuser} customClassName="nav-icon" />,
   },
 
-
-
+  {
+    component: CNavItem,
+    name: 'Manage Program',
+    to: '/programs',
+    icon: <CIcon icon={cibSuperuser} customClassName="nav-icon" />,
+  },
 
   // {
   //   component: CNavTitle,

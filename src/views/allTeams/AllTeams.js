@@ -18,7 +18,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { imageUrl } from '../../Constant/url'
 
 function AllBrokers() {
-  const { fetchTeamData  } = useContext(CrudTeamContext)
+  const { fetchTeamData } = useContext(CrudTeamContext)
   const [brokers, setBrokers] = useState([])
   const [loading, setIsLoading] = useState(true)
   const [activePage, setActivePage] = useState(1) // State to manage the active page
@@ -26,14 +26,14 @@ function AllBrokers() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const fetchedData = await fetchTeamData ()
+      const fetchedData = await fetchTeamData()
       const sortedBrokers = fetchedData.sort((a, b) => a.ranking - b.ranking)
 
       setBrokers(sortedBrokers)
       setIsLoading(false) // Set isLoading to false after fetching data
     }
     fetchData()
-  }, [fetchTeamData ]) // Make sure to include fetchFranchises in the dependency array
+  }, [fetchTeamData]) // Make sure to include fetchFranchises in the dependency array
 
   // Function to handle page change
   const handlePageChange = (pageNumber) => {
@@ -44,7 +44,7 @@ function AllBrokers() {
   const startIndex = (activePage - 1) * itemsPerPage
   const endIndex = startIndex + itemsPerPage
 
-  brokers.slice(startIndex, endIndex).map((x,y)=>console.log(x))
+  brokers.slice(startIndex, endIndex).map((x, y) => console.log(x))
 
   return (
     <div>
@@ -64,47 +64,47 @@ function AllBrokers() {
         <CTableBody>
           {loading
             ? // Render skeleton rows while data is being fetched
-            Array.from({ length: 5 }).map((_, index) => (
-              <CTableRow key={index}>
-                <CTableDataCell className="text-center">
-                  <Skeleton circle={true} height={40} width={40} />
-                </CTableDataCell>
-                <CTableDataCell>
-                  <Skeleton height={20} />
-                </CTableDataCell>
-                <CTableDataCell className="text-center">
-                  <Skeleton height={20} />
-                </CTableDataCell>
-                <CTableDataCell className="text-center">
-                  <Skeleton height={20} />
-                </CTableDataCell>
-                <CTableDataCell className="text-center">
-                  <Skeleton height={20} />
-                </CTableDataCell>
-              </CTableRow>
-            ))
+              Array.from({ length: 5 }).map((_, index) => (
+                <CTableRow key={index}>
+                  <CTableDataCell className="text-center">
+                    <Skeleton circle={true} height={40} width={40} />
+                  </CTableDataCell>
+                  <CTableDataCell>
+                    <Skeleton height={20} />
+                  </CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    <Skeleton height={20} />
+                  </CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    <Skeleton height={20} />
+                  </CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    <Skeleton height={20} />
+                  </CTableDataCell>
+                </CTableRow>
+              ))
             : // Render actual data once it's loaded
-            brokers.slice(startIndex, endIndex).map((item, index) => (
-              <CTableRow key={index}>
-                <CTableDataCell className="text-center">
-                  <CAvatar size="md" src={`${imageUrl}/${item.image}`} />
-                </CTableDataCell>
-                <CTableDataCell>{item.name}</CTableDataCell>
-                {/* <CTableDataCell className="text-center">{item.location}</CTableDataCell> */}
-                <CTableDataCell className="text-center">
-                  <div className="fw-semibold">{item.ranking}</div>
-                </CTableDataCell>
-                <CTableDataCell className="text-center">
-                  <div className="fw-semibold">{item.score}</div>
-                </CTableDataCell>
-                {/* <CTableDataCell className="text-center">
+              brokers.slice(startIndex, endIndex).map((item, index) => (
+                <CTableRow key={index}>
+                  <CTableDataCell className="text-center">
+                    <CAvatar size="md" src={`${imageUrl}/${item.image}`} />
+                  </CTableDataCell>
+                  <CTableDataCell>{item.name}</CTableDataCell>
+                  {/* <CTableDataCell className="text-center">{item.location}</CTableDataCell> */}
+                  <CTableDataCell className="text-center">
+                    <div className="fw-semibold">{item.ranking}</div>
+                  </CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    <div className="fw-semibold">{item.score}</div>
+                  </CTableDataCell>
+                  {/* <CTableDataCell className="text-center">
                   
                   <a href={item.link} target="_blank" rel="noopener noreferrer">
                     {item.link}
                   </a>
                 </CTableDataCell> */}
-              </CTableRow>
-            ))}
+                </CTableRow>
+              ))}
         </CTableBody>
       </CTable>
       {/* Pagination */}

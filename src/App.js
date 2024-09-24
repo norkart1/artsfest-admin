@@ -52,12 +52,12 @@ const App = () => {
           <Route exact path="/404" element={<Page404 />} />
 
           {/* Protected routes */}
-          
+
           <Route
             path="*"
             element={isAuthenticated() ? <DefaultLayout /> : <Navigate to="/login" />}
           />
-          
+
           {/* <Route
             path="*"
             element={ <DefaultLayout/>}

@@ -7,12 +7,15 @@ import App from './App'
 import store from './store'
 import { AuthProvider } from './Context/authContext'
 import { CrudProvider } from './Context/teamContext'
+import { ProgramCrudProvider } from './Context/programContext'
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <AuthProvider>
       <CrudProvider>
-        <App />
+        <ProgramCrudProvider>
+          <App />
+        </ProgramCrudProvider>
       </CrudProvider>
     </AuthProvider>
   </Provider>,
