@@ -78,7 +78,7 @@ export const CrudProvider = ({ children }) => {
     }
   }
 
-  const deleteteam = async (teamId) => {
+  const deleteTeam = async (teamId) => {
     try {
       // Make DELETE request to delete team
       const response = await axios.delete(`${teamBaseUrl}/deleteteamBy/${teamId}`)
@@ -100,7 +100,7 @@ export const CrudProvider = ({ children }) => {
     teams,
     fetchTeamData,
     editTeam,
-    deleteteam,
+    deleteTeam,
   }
 
   return <CrudTeamContext.Provider value={contextValue}>{children}</CrudTeamContext.Provider>

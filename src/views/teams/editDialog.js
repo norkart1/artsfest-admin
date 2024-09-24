@@ -12,15 +12,16 @@ import { cilDelete } from '@coreui/icons'
 
 import { CrudTeamContext } from '../../Context/teamContext'
 import { Delete, Image } from '@mui/icons-material'
+import { imageUrl } from '../../Constant/url'
 
 const EditDialog = ({ brokersData, setOpen, open }) => {
-  const { editBroker, deleteBroker } = useContext(CrudTeamContext)
+  const { editTeam, deleteTeam } = useContext(CrudTeamContext)
   const [imagePreview, setImagePreview] = useState(null)
 
   const [nameError, setNameError] = useState('')
   const [rankingError, setRankingError] = useState('')
-  const [linkError, setLinkError] = useState('')
-  const [locationError, setLocationError] = useState('')
+  
+  const [scoreError, setScoreError] = useState('')
   const [confirmationOpen, setConfirmationOpen] = useState(false); // State for confirmation dialog
 
 
@@ -40,9 +41,8 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
     if (open && brokersData) {
       setFormData({
         name: brokersData.name || "",
-        phoneNumber: brokersData.phoneNumber || "",
-        // location: brokersData.location || "",
-        // link: brokersData.link || "",
+        score:brokersData.score || "",
+        
         ranking: brokersData.ranking || "",
       });
 
@@ -68,12 +68,10 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
       case 'ranking':
         validateRanking(value)
         break
-      // case 'link':
-      //   validateLink(value)
-      //   break
-      // case 'location':
-      //   validateLocation(value)
-      //   break
+      
+      // case 'score':
+      //   validateScore(value)
+        break
       default:
         break
     }
@@ -119,10 +117,10 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
     e.preventDefault()
     const isNameValid = validateName(formData.name)
     const isRankingValid = validateRanking(formData.ranking)
-    //const isLocationValid = validateLocation(formData.location)
+    //const isScoreValid = validateScore(formData.score)
     //const isLinkValid = validateLink(formData.link)
 
-    if (!isNameValid || !isRankingValid ) {
+    if (!isNameValid || !isRankingValid || !formData.score) {
       return
     }
 
@@ -133,7 +131,7 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
       }
 
 
-      editBroker(brokersData._id, formDataToSend)
+      editTeam(brokersData._id, formDataToSend)
 
       // Reset form after submission
       setFormData({
@@ -156,7 +154,7 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
   };
 
   const handleDeleteConfirmed = () => {
-    deleteBroker(brokersData._id);
+    deleteTeam(brokersData._id);
     setConfirmationOpen(false); // Close the confirmation dialog
   };
 
@@ -180,14 +178,15 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
     return true
   }
 
-  const validateLocation = (location) => {
-    if (!location.trim()) {
-      setLocationError('Location is required')
-      return false
-    }
-    setLocationError('')
-    return true
-  }
+  // const validateScore = (score) => {
+  //   console.log('score',score)
+  //   if (!score.trim()) {
+  //     setScoreError('Score is required')
+  //     return false
+  //   }
+  //   setScoreError('')
+  //   return true
+  // }
 
   const validateRanking = (ranking) => {
     if (!ranking && ranking !== 0) {
@@ -203,22 +202,7 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
   }
 
 
-  const validateLink = (link) => {
-    // Check if the link is empty after trimming
-    if (!link.trim()) {
-      setLinkError('Link is required') // Set the error message
-      return false
-    }
-
-    try {
-      // Create a new URL object with the link
-      const url = new URL(link)
-      return true
-    } catch (error) {
-      setLinkError('Invalid URL') // Set the error message
-      return false
-    }
-  }
+  
 
   return (
     <div>
@@ -268,9 +252,10 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
               onBlur={handleBlur}
               onChange={handleChange}
             />
-            {/* <Typography color="error" variant="body2">
-              {rankingError}
-            </Typography> */}
+            <Typography color="error" variant="body2">
+              {scoreError}
+            </Typography>
+
             {/* <TextField
               fullWidth
               label="Location"
