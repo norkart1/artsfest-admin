@@ -1,5 +1,5 @@
 // AddBrokerForm.js
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import {
   Typography,
   Dialog,
@@ -9,11 +9,21 @@ import {
   TextField,
   Grid,
   Box,
+  FormControl,
+  FormControlLabel,
+  Checkbox,
+  InputLabel,
+  Select,
+  FormLabel,
+  FormGroup,
+  MenuItem,
 } from '@mui/material'
 import { CrudTeamContext } from '../../Context/teamContext'
+import { CrudProgramContext } from '../../Context/programContext'
 
 const AddBrokerForm = ({ open, setOpen }) => {
   const { addteam } = useContext(CrudTeamContext)
+  const { fetchPrograms } = useContext(CrudProgramContext)
 
   const [imagePreview, setImagePreview] = useState(null)
   const [nameError, setNameError] = useState('')
@@ -22,16 +32,26 @@ const AddBrokerForm = ({ open, setOpen }) => {
   const [locationError, setLocationError] = useState('')
   const [scoreError, setScoreError] = useState('')
 
-
   const [formData, setFormData] = useState({
     name: '',
-    ranking: 0, // Initialize ranking as a number default 0;
+    ranking: '',
+    score: '',
+    program: '',
     image: null,
     imagePreviewUrl: '',
-   // link: '',
-    score: '',
-    //location: '',
+    isSingle: false,
+    isGroup: false,
   })
+
+  const [allPrograms, setAllPrograms] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchedData = await fetchPrograms()
+      setAllPrograms(fetchedData)
+    }
+    fetchData()
+  }, [fetchPrograms])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -49,12 +69,7 @@ const AddBrokerForm = ({ open, setOpen }) => {
       case 'ranking':
         validateRanking(value)
         break
-      // case 'link':
-      //   validateLink(value)
-      //   break
-      // case 'location':
-      //   validateLocation(value)
-      //   break
+
       case 'score':
         validateScore(value)
         break
@@ -118,11 +133,10 @@ const AddBrokerForm = ({ open, setOpen }) => {
 
     const isNameValid = validateName(formData.name)
     const isRankingValid = validateRanking(formData.ranking)
-   // const isLocationValid = validateLocation(formData.location)
-   // const isLinkValid = validateLink(formData.link)
+
     const isScoreValid = validateScore(formData.score)
 
-    if (!isNameValid || !isRankingValid  || !isScoreValid) {
+    if (!isNameValid || !isRankingValid || !isScoreValid) {
       return
     }
 
@@ -138,9 +152,9 @@ const AddBrokerForm = ({ open, setOpen }) => {
       setFormData({
         name: '',
         ranking: '',
-        score:'',
-        //location: '',
-        //link: '',
+        score: '',
+        program: '',
+        imagePreviewUrl: '',
         image: null,
       })
 
@@ -155,9 +169,9 @@ const AddBrokerForm = ({ open, setOpen }) => {
     setFormData({
       name: '',
       ranking: '',
-      //location: '',
-      score:"",
-      //link: '',
+      score: '',
+      program: '',
+      imagePreviewUrl: '',
       image: null,
     })
     setImagePreview(null)
@@ -214,7 +228,6 @@ const AddBrokerForm = ({ open, setOpen }) => {
     }
   }
 
-
   const validateScore = (score) => {
     if (score === undefined || score === null || score === '') {
       setScoreError('Score is required')
@@ -227,9 +240,6 @@ const AddBrokerForm = ({ open, setOpen }) => {
     setScoreError('')
     return true
   }
-
-
-
 
   return (
     <div>
@@ -256,6 +266,7 @@ const AddBrokerForm = ({ open, setOpen }) => {
                   {nameError}
                 </Typography>
               </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   fullWidth
@@ -273,39 +284,6 @@ const AddBrokerForm = ({ open, setOpen }) => {
                 </Typography>
               </Grid>
 
-              {/* <Grid item xs={12}>
-                <div>
-                  <TextField
-                    fullWidth
-                    label="Location"
-                    name="location"
-                    variant="outlined"
-                    margin="normal"
-                    type="text" // Set input type to tel for phone numbers
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  <Typography color="error" variant="body2">
-                    {locationError}
-                  </Typography>
-                </div>
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Link"
-                  name="link"
-                  variant="outlined"
-                  margin="normal"
-                  type="url" // Set input type to tel for phone numbers
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <Typography color="error" variant="body2">
-                  {linkError}
-                </Typography>
-              </Grid> */}
               <Grid item xs={12}>
                 <TextField
                   fullWidth
@@ -313,7 +291,7 @@ const AddBrokerForm = ({ open, setOpen }) => {
                   name="score"
                   variant="outlined"
                   margin="normal"
-                  type="text" // Set input type to tel for phone numbers
+                  type="text"
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
@@ -322,6 +300,56 @@ const AddBrokerForm = ({ open, setOpen }) => {
                 </Typography>
               </Grid>
 
+              {/* Select dropdown for programs */}
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel id="program-select-label">Program</InputLabel>
+                  <Select
+                    labelId="program-select-label"
+                    id="program-select"
+                    value={formData.program || ''}
+                    label="Program"
+                    onChange={(e) => setFormData({ ...formData, program: e.target.value })}
+                  >
+                    {allPrograms.map((program) => (
+                      <MenuItem key={program.value} value={program.value}>
+                        {program.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              {/* Checkboxes for Single/Group */}
+              <Grid item xs={12}>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Category</FormLabel>
+                  <FormGroup row>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={formData.isSingle}
+                          onChange={(e) => setFormData({ ...formData, isSingle: e.target.checked })}
+                          name="isSingle"
+                        />
+                      }
+                      label="Single"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={formData.isGroup}
+                          onChange={(e) => setFormData({ ...formData, isGroup: e.target.checked })}
+                          name="isGroup"
+                        />
+                      }
+                      label="Group"
+                    />
+                  </FormGroup>
+                </FormControl>
+              </Grid>
+
+              {/* Image Upload */}
               <Grid item xs={12}>
                 <input
                   type="file"
@@ -342,6 +370,7 @@ const AddBrokerForm = ({ open, setOpen }) => {
                   </Button>
                 </label>
               </Grid>
+
               {imagePreview && (
                 <Grid item xs={12}>
                   <Box mt={2}>
@@ -354,22 +383,8 @@ const AddBrokerForm = ({ open, setOpen }) => {
                   </Box>
                 </Grid>
               )}
-              {/* <Grid item xs={12}>
-                <DialogActions>
-                  <Button onClick={handleClose} variant='outline-danger'>
-                    Normal
-                  </Button>
-                  <Button type="submit" color="primary">
-                    Danger
-                  </Button>
-                  <Button type="submit" color="primary">
-                    Warning
-                  </Button>
-                </DialogActions>
-              </Grid> */}
 
-
-
+              {/* Submit / Cancel Buttons */}
               <Grid item xs={12}>
                 <DialogActions>
                   <Button onClick={handleClose} color="primary">

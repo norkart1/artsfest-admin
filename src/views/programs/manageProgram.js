@@ -7,8 +7,7 @@ import Swal from 'sweetalert2'
 import { CrudProgramContext } from '../../Context/programContext'
 
 const ProgramManage = () => {
-  const { programs, fetchPrograms, createProgram, deleteProgramById } =
-    useContext(CrudProgramContext)
+  const { fetchPrograms, createProgram, deleteProgramById } = useContext(CrudProgramContext)
 
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [alertMessage, setAlertMessag] = useState(null)
