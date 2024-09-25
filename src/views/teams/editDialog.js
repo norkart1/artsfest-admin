@@ -19,45 +19,35 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
   const [imagePreview, setImagePreview] = useState(null)
 
   const [nameError, setNameError] = useState('')
-  const [rankingError, setRankingError] = useState('')
-  
-  const [scoreError, setScoreError] = useState('')
-  const [confirmationOpen, setConfirmationOpen] = useState(false); // State for confirmation dialog
 
+  const [confirmationOpen, setConfirmationOpen] = useState(false) // State for confirmation dialog
 
   const [formData, setFormData] = useState({
     name: '',
-    ranking: 0, // Initialize ranking as a number default 0;
+
     image: null,
     imagePreviewUrl: '',
-    score:0,
     // link: '',
     // location: '',
   })
-
 
   // Populate form data with franchise data when modal opens
   useEffect(() => {
     if (open && brokersData) {
       setFormData({
-        name: brokersData.name || "",
-        score:brokersData.score || "",
-        
-        ranking: brokersData.ranking || "",
-      });
+        name: brokersData.name || '',
+      })
 
-      setImagePreview(brokersData.image);
+      setImagePreview(brokersData.image)
     }
-
-
-  }, [open, brokersData,]);
+  }, [open, brokersData])
 
   const handleChange = (e) => {
     const { name, value } = e.target
 
     setFormData({
       ...formData,
-      [name]: name === 'ranking' ? parseInt(value, 10) || '' : value, // Handle NaN by setting empty string
+      [name]: value, // Handle NaN by setting empty string
     })
 
     // Validate input value after each change
@@ -65,13 +55,7 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
       case 'name':
         validateName(value)
         break
-      case 'ranking':
-        validateRanking(value)
-        break
-      
-      // case 'score':
-      //   validateScore(value)
-        break
+
       default:
         break
     }
@@ -85,22 +69,13 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
       case 'name':
         setNameError(value.trim() ? '' : 'Name is required')
         break
-      case 'ranking':
-        setRankingError(value.trim() ? '' : 'Ranking is required')
-        break
-      // case 'location':
-      //   setLocationError(value.trim() ? '' : 'Location is required')
-      //   break
-      // case 'link':
-      //   setLinkError(value.trim() ? '' : 'Link is required')
-      //   break
+
       default:
         break
     }
   }
 
   const handleImageChange = (e) => {
-
     const file = e.target.files[0]
 
     const maxSizeInBytes = 2 * 1024 * 1024 // 2MB (adjust as needed)
@@ -110,17 +85,13 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
       setFormData({ ...formData, image: e.target.files[0] })
       setImagePreview(URL.createObjectURL(e.target.files[0]))
     }
-    
   }
 
   const handleEdit = (e) => {
     e.preventDefault()
     const isNameValid = validateName(formData.name)
-    const isRankingValid = validateRanking(formData.ranking)
-    //const isScoreValid = validateScore(formData.score)
-    //const isLinkValid = validateLink(formData.link)
 
-    if (!isNameValid || !isRankingValid || !formData.score) {
+    if (!isNameValid) {
       return
     }
 
@@ -130,15 +101,12 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
         formDataToSend.append(key, formData[key])
       }
 
-
       editTeam(brokersData._id, formDataToSend)
 
       // Reset form after submission
       setFormData({
         name: '',
-        ranking: '',
-        // location: '',
-        // link: '',
+
         image: null,
       })
 
@@ -150,18 +118,17 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
   }
 
   const handleDeleteConfirmation = () => {
-    setConfirmationOpen(true); // Open the confirmation dialog
-  };
+    setConfirmationOpen(true) // Open the confirmation dialog
+  }
 
   const handleDeleteConfirmed = () => {
-    deleteTeam(brokersData._id);
-    setConfirmationOpen(false); // Close the confirmation dialog
-  };
+    deleteTeam(brokersData._id)
+    setConfirmationOpen(false) // Close the confirmation dialog
+  }
 
   const handleDeleteCancelled = () => {
-    setConfirmationOpen(false); // Close the confirmation dialog
-  };
-
+    setConfirmationOpen(false) // Close the confirmation dialog
+  }
 
   const handleClose = () => {
     setOpen(false)
@@ -177,32 +144,6 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
     setNameError('')
     return true
   }
-
-  // const validateScore = (score) => {
-  //   console.log('score',score)
-  //   if (!score.trim()) {
-  //     setScoreError('Score is required')
-  //     return false
-  //   }
-  //   setScoreError('')
-  //   return true
-  // }
-
-  const validateRanking = (ranking) => {
-    if (!ranking && ranking !== 0) {
-      setRankingError('Ranking is required')
-      return false
-    }
-    if (isNaN(ranking) || !Number.isInteger(parseInt(ranking))) {
-      setRankingError('Ranking must be a valid number')
-      return false
-    }
-    setRankingError('')
-    return true
-  }
-
-
-  
 
   return (
     <div>
@@ -226,64 +167,7 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
             <Typography color="error" variant="body2">
               {nameError}
             </Typography>
-            <TextField
-              fullWidth
-              label="Ranking"
-              name="ranking"
-              variant="outlined"
-              margin="normal"
-              value={formData.ranking}
-              type="tel"
-              onBlur={handleBlur}
-              onChange={handleChange}
-            />
-            <Typography color="error" variant="body2">
-              {rankingError}
-            </Typography>
 
-            <TextField
-              fullWidth
-              label="Score"
-              name="score"
-              variant="outlined"
-              margin="normal"
-              value={formData.score}
-              type="tel"
-              onBlur={handleBlur}
-              onChange={handleChange}
-            />
-            <Typography color="error" variant="body2">
-              {scoreError}
-            </Typography>
-
-            {/* <TextField
-              fullWidth
-              label="Location"
-              name="location"
-              variant="outlined"
-              value={formData.location}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              margin="normal"
-              type="text"
-            />
-            <Typography color="error" variant="body2">
-              {locationError}
-            </Typography> */}
-            {/* <TextField
-              fullWidth
-              label="Link"
-              name="link"
-              variant="outlined"
-              value={formData.link}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              margin="normal"
-              type="url"
-            />
-            <Typography color="error" variant="body2">
-              {linkError}
-            </Typography> */}
             <input
               type="file"
               accept="image/*"

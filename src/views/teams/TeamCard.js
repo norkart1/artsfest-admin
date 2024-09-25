@@ -45,60 +45,61 @@ export const TeamCard = (props) => {
   return (
     <>
       <Card
-  sx={{
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    cursor: 'pointer',
-    border: '1px solid #e0e0e0',
-    borderRadius: '10px',
-    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-    transition: 'transform 0.2s',
-    '&:hover': {
-      transform: 'scale(1.03)',
-    },
-  }}
->
-<CardContent onClick={handleOpenDetailPage}>
-  <Box
-    sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      pb: 3,
-    }}
-  >
-    <Avatar
-      src={`${imageUrl}/${broker.image}`}
-      variant="square"
-      sx={{
-        width: '120px',
-        height: '120px',
-        border: '2px solid #fff',
-        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-      }}
-    />
-  </Box>
-  <Typography align="center" gutterBottom variant="h5" sx={{ color: '#333', mb: 1 }}>
-    {broker.name}
-  </Typography>
-  
-  <Typography align="center" variant="body1" sx={{ color: '#666', mb: 1 }}>
-    Created at: {broker.createdAt}
-  </Typography>
-  {/* <Typography align="center" variant="body1" sx={{ color: '#666', mb: 1 }}>
-    Location: {broker.location}
-  </Typography>
-  <Typography align="center" gutterBottom variant="body1" sx={{ color: '#1976D2', textDecoration: 'underline' }}>
-    <a href={broker.link} target="_blank" rel="noopener noreferrer">Visit Website</a>
-  </Typography> */}
-  <Typography align="center" variant="body1" sx={{ color: getRankColor(broker.rank), fontWeight: 'bold' }}>
-    Rank: {broker.ranking}
-  </Typography>
-  <Typography align="center" variant="body1" sx={{ color: getRankColor(broker.rank), fontWeight: 'bold' }}>
-    Score: {broker.score}
-  </Typography>
-</CardContent>
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          cursor: 'pointer',
+          border: '1px solid #e0e0e0',
+          borderRadius: '10px',
+          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+          transition: 'transform 0.2s',
+          '&:hover': {
+            transform: 'scale(1.03)',
+          },
+        }}
+      >
+        <CardContent onClick={handleOpenDetailPage}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              pb: 3,
+            }}
+          >
+            <Avatar
+              src={`${imageUrl}/${broker.image}`}
+              variant="square"
+              sx={{
+                width: '120px',
+                height: '120px',
+                border: '2px solid #fff',
+                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+              }}
+            />
+          </Box>
+          <Typography align="center" gutterBottom variant="h5" sx={{ color: '#333', mb: 1 }}>
+            {broker.name}
+          </Typography>
 
+          <Typography align="center" variant="body1" sx={{ color: '#666', mb: 1 }}>
+            Created at: {broker.createdAt}
+          </Typography>
+
+          {/* <Typography
+            align="center"
+            variant="body1"
+            sx={{ color: getRankColor(broker.rank), fontWeight: 'bold' }}
+          >
+            Rank: {broker.ranking}
+          </Typography> */}
+
+          {broker.totalScore > 0 && (
+            <Typography align="center" variant="body1">
+              Total Score: {broker.totalScore}
+            </Typography>
+          )}
+        </CardContent>
 
         <Divider />
 

@@ -27,9 +27,9 @@ function AllBrokers() {
   useEffect(() => {
     const fetchData = async () => {
       const fetchedData = await fetchTeamData()
-      const sortedBrokers = fetchedData.sort((a, b) => a.ranking - b.ranking)
+      //const sortedBrokers = fetchedData.sort((a, b) => a.ranking - b.ranking)
 
-      setBrokers(sortedBrokers)
+      setBrokers(fetchedData)
       setIsLoading(false) // Set isLoading to false after fetching data
     }
     fetchData()

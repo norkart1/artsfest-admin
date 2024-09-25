@@ -22,25 +22,16 @@ import { CrudTeamContext } from '../../Context/teamContext'
 import { CrudProgramContext } from '../../Context/programContext'
 
 const AddBrokerForm = ({ open, setOpen }) => {
-  const { addteam } = useContext(CrudTeamContext)
+  const { addTeam } = useContext(CrudTeamContext)
   const { fetchPrograms } = useContext(CrudProgramContext)
 
   const [imagePreview, setImagePreview] = useState(null)
   const [nameError, setNameError] = useState('')
-  const [rankingError, setRankingError] = useState('')
-  const [linkError, setLinkError] = useState('')
-  const [locationError, setLocationError] = useState('')
-  const [scoreError, setScoreError] = useState('')
 
   const [formData, setFormData] = useState({
     name: '',
-    ranking: '',
-    score: '',
-    program: '',
     image: null,
     imagePreviewUrl: '',
-    isSingle: false,
-    isGroup: false,
   })
 
   const [allPrograms, setAllPrograms] = useState([])
@@ -58,24 +49,11 @@ const AddBrokerForm = ({ open, setOpen }) => {
 
     setFormData({
       ...formData,
-      [name]: name === 'ranking' ? parseInt(value, 10) || '' : value, // Handle NaN by setting empty string
+      [name]: value, // Handle NaN by setting empty string
     })
 
     // Validate input value after each change
-    switch (name) {
-      case 'name':
-        validateName(value)
-        break
-      case 'ranking':
-        validateRanking(value)
-        break
-
-      case 'score':
-        validateScore(value)
-        break
-      default:
-        break
-    }
+    validateName(value)
   }
 
   const handleBlur = (e) => {
@@ -88,22 +66,6 @@ const AddBrokerForm = ({ open, setOpen }) => {
           setNameError('Team name is required')
         }
         break
-      case 'ranking':
-        if (!value.trim()) {
-          setRankingError('Team Ranking is required')
-        }
-        break
-      // case 'location':
-      //   if (!value.trim()) {
-      //     setLocationError('Broker Location is required')
-      //   }
-      //   break
-
-      // case 'link':
-      //   if (!value.trim()) {
-      //     setLinkError('Broker Link is required')
-      //   }
-      //   break
 
       default:
         break
@@ -132,11 +94,11 @@ const AddBrokerForm = ({ open, setOpen }) => {
     e.preventDefault()
 
     const isNameValid = validateName(formData.name)
-    const isRankingValid = validateRanking(formData.ranking)
+    // const isRankingValid = validateRanking(formData.ranking)
 
-    const isScoreValid = validateScore(formData.score)
+    // const isScoreValid = validateScore(formData.score)
 
-    if (!isNameValid || !isRankingValid || !isScoreValid) {
+    if (!isNameValid) {
       return
     }
 
@@ -146,14 +108,12 @@ const AddBrokerForm = ({ open, setOpen }) => {
         formDataToSend.append(key, formData[key])
       }
 
-      addteam(formDataToSend)
+      await addTeam(formDataToSend)
 
       // Reset form after submission
       setFormData({
         name: '',
-        ranking: '',
-        score: '',
-        program: '',
+
         imagePreviewUrl: '',
         image: null,
       })
@@ -168,9 +128,7 @@ const AddBrokerForm = ({ open, setOpen }) => {
   const handleClose = () => {
     setFormData({
       name: '',
-      ranking: '',
-      score: '',
-      program: '',
+
       imagePreviewUrl: '',
       image: null,
     })
@@ -186,58 +144,6 @@ const AddBrokerForm = ({ open, setOpen }) => {
       return false
     }
     setNameError('')
-    return true
-  }
-
-  const validateRanking = (ranking) => {
-    if (!ranking && ranking !== 0) {
-      setRankingError('Ranking is required')
-      return false
-    }
-    if (isNaN(ranking) || !Number.isInteger(parseInt(ranking))) {
-      setRankingError('Ranking must be a valid number')
-      return false
-    }
-    setRankingError('')
-    return true
-  }
-
-  const validateLocation = (location) => {
-    if (!location.trim()) {
-      setLocationError('Location is required')
-      return false
-    }
-    setLocationError('')
-    return true
-  }
-
-  const validateLink = (link) => {
-    // Check if the link is empty after trimming
-    if (!link.trim()) {
-      setLinkError('Link is required') // Set the error message
-      return false
-    }
-
-    try {
-      // Create a new URL object with the link
-      const url = new URL(link)
-      return true
-    } catch (error) {
-      setLinkError('Invalid URL') // Set the error message
-      return false
-    }
-  }
-
-  const validateScore = (score) => {
-    if (score === undefined || score === null || score === '') {
-      setScoreError('Score is required')
-      return false
-    }
-    if (isNaN(score) || parseFloat(score) < 0 || parseFloat(score) > 100) {
-      setScoreError('Score must be a valid number between 0 and 100')
-      return false
-    }
-    setScoreError('')
     return true
   }
 
@@ -267,7 +173,7 @@ const AddBrokerForm = ({ open, setOpen }) => {
                 </Typography>
               </Grid>
 
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <TextField
                   fullWidth
                   label="Ranking"
@@ -298,10 +204,10 @@ const AddBrokerForm = ({ open, setOpen }) => {
                 <Typography color="error" variant="body2">
                   {scoreError}
                 </Typography>
-              </Grid>
+              </Grid> */}
 
               {/* Select dropdown for programs */}
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <FormControl fullWidth>
                   <InputLabel id="program-select-label">Program</InputLabel>
                   <Select
@@ -318,10 +224,10 @@ const AddBrokerForm = ({ open, setOpen }) => {
                     ))}
                   </Select>
                 </FormControl>
-              </Grid>
+              </Grid> */}
 
               {/* Checkboxes for Single/Group */}
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <FormControl component="fieldset">
                   <FormLabel component="legend">Category</FormLabel>
                   <FormGroup row>
@@ -347,7 +253,7 @@ const AddBrokerForm = ({ open, setOpen }) => {
                     />
                   </FormGroup>
                 </FormControl>
-              </Grid>
+              </Grid> */}
 
               {/* Image Upload */}
               <Grid item xs={12}>

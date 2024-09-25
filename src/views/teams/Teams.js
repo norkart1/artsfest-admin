@@ -33,16 +33,15 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       const fetchedData = await fetchTeamData()
+
       setBrokersData(fetchedData)
       setIsLoading(false) // Set isLoading to false after fetching data
     }
     fetchData()
-  }, [fetchTeamData ]) // Make sure to include fetchFranchises in the dependency array
-
-  console.log('dta',brokersData)
+  }, [fetchTeamData]) // Make sure to include fetchFranchises in the dependency array
 
   // Filter Brokers based on search query
-  const filteredBrokers = brokersData.filter((broker) =>
+  const filteredBrokers = brokersData?.filter((broker) =>
     broker.name?.toLowerCase().includes(searchQuery.toLowerCase()),
   )
 
@@ -92,29 +91,30 @@ const Page = () => {
             </Stack>
             <TeamSearch handleSearchChange={handleSearchChange} />
             <Grid container spacing={3}>
-
-              {isLoading ? (
-                Array.from({ length: rowsPerPage }).map((_, index) => (
-                  <Grid xs={12} md={6} lg={4} key={index}>
-                    <Box sx={{ p: 2 }}>
-                      <Skeleton variant="rectangular" width="100%" height={250} animation="wave" />
-                      <Box sx={{ pt: 2 }}>
-                        <Skeleton variant="text" width={150} height={24} animation="wave" />
-                        <Skeleton variant="text" width="80%" height={16} animation="wave" />
-                        <Skeleton variant="text" width="60%" height={16} animation="wave" />
+              {isLoading
+                ? Array.from({ length: rowsPerPage }).map((_, index) => (
+                    <Grid xs={12} md={6} lg={4} key={index}>
+                      <Box sx={{ p: 2 }}>
+                        <Skeleton
+                          variant="rectangular"
+                          width="100%"
+                          height={250}
+                          animation="wave"
+                        />
+                        <Box sx={{ pt: 2 }}>
+                          <Skeleton variant="text" width={150} height={24} animation="wave" />
+                          <Skeleton variant="text" width="80%" height={16} animation="wave" />
+                          <Skeleton variant="text" width="60%" height={16} animation="wave" />
+                        </Box>
                       </Box>
-                    </Box>
-                  </Grid>
-                ))
-              ) : (
-                // Render actual data once it's loaded
-                displayedBrokers.map((broker) => (
-                  <Grid xs={12} md={6} lg={4} key={broker._id}>
-                    <TeamCard broker={broker} />
-                  </Grid>
-                ))
-              )}
-
+                    </Grid>
+                  ))
+                : // Render actual data once it's loaded
+                  displayedBrokers.map((broker) => (
+                    <Grid xs={12} md={6} lg={4} key={broker._id}>
+                      <TeamCard broker={broker} />
+                    </Grid>
+                  ))}
             </Grid>
             <Box
               sx={{

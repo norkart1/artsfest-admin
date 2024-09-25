@@ -1,4 +1,5 @@
 import React from 'react'
+import AddTeamToProgram from './views/teams/addTeamToProgram'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
@@ -57,8 +58,10 @@ const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/teams', name: 'Teams', element: Teams },
-  { path: '/allteams', name: 'AllTeams', element: AllTeams }, 
+  { path: '/allteams', name: 'AllTeams', element: AllTeams },
   { path: '/programs', name: 'Programs', element: ManageProgram },
+
+  { path: '/team/program', name: 'Programs', element: AddTeamToProgram },
 
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },

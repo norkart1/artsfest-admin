@@ -53,6 +53,13 @@ const _nav = [
     icon: <CIcon icon={cibSuperuser} customClassName="nav-icon" />,
   },
 
+  {
+    component: CNavItem,
+    name: 'Manage Program & Team',
+    to: '/team/program',
+    icon: <CIcon icon={cibSuperuser} customClassName="nav-icon" />,
+  },
+
   // {
   //   component: CNavTitle,
   //   name: 'Theme',

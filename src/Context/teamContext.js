@@ -1,75 +1,53 @@
-import { createContext, useState, useEffect } from 'react'
-import { teamBaseUrl, imageUrl } from '../Constant/url'
+import { createContext, useState } from 'react'
 import axios from 'axios'
-
+import { teamBaseUrl } from '../Constant/url'
 
 export const CrudTeamContext = createContext()
 
 export const CrudProvider = ({ children }) => {
   const [teams, setTeams] = useState([])
 
-  const addteam = async (userData) => {
-    console.log(userData)
+  // Add a new team without program association
+  const addTeam = async (teamData) => {
+    console.log('working')
     try {
-      const response = await axios.post(`${teamBaseUrl}/addTeam`, userData)
+      const response = await axios.post(`${teamBaseUrl}/addteam`, teamData)
 
       if (response.status === 200) {
-        // Add the newly created teams from response data to the state
-        const createdTeam = response.data
-        setTeams((prevteams) => [...prevteams, createdTeam])
-        //console.log('New Team added successfully:', createdteam)
+        const newTeam = response.data
+        setTeams((prevTeams) => [...prevTeams, newTeam])
       } else {
-        throw new Error('Failed to add new team')
+        throw new Error('Failed to add a new team')
       }
     } catch (error) {
-      console.error('Error adding teams:', error)
+      console.error('Error adding team:', error)
     }
   }
 
-  // Function to fetch all Teams
+  // Fetch all teams
   const fetchTeamData = async () => {
+    console.log('fetchTeamData')
     try {
-      // Make GET request to fetch all teams
-      const response = await axios.get(`${teamBaseUrl}/getAllTeams`)
-      if (response.status !== 200) {
-        throw new Error('Failed to fetch teams')
-      }
+      const response = await axios.get(`${teamBaseUrl}/getAllteams`)
+      if (response.status !== 200) throw new Error('Failed to fetch teams')
 
-      
-
-      // Extract data from response
-      const teams = response.data
-
-      // Optionally transform data logic
-      const transformedTeams = teams.map((team) => ({
-        ...teams,
-        image: team.image ? `${imageUrl}/${team.image}` : null,
-        //createdAt: new Date(team.createdAt).toLocaleString(),
-        monthYear: new Date(team.createdAt).toLocaleString('default', { month: 'short' }) + ' ' + new Date(team.createdAt).getFullYear(),
-      }))
-  
-
+      //setTeams(teams)
+      console.log('responsdata', response.data)
       return response.data
     } catch (error) {
       console.error('Error fetching teams:', error)
-      throw error // Rethrow the error to handle it where the function is called
     }
   }
 
-  //Function to edit a team
+  // Edit team
   const editTeam = async (teamId, updatedData) => {
     try {
-      // Make PUT request to update franchise
-      const response = await axios.put(`${teamBaseUrl}/updateteamBy/${teamId}`, updatedData)
+      const response = await axios.put(`${teamBaseUrl}/teams/update/${teamId}`, updatedData)
       if (response.status === 200) {
-        const updatedteam = response.data
-        // Update franchises state with the updated franchise
-        setTeams((prevFranchises) =>
-          prevFranchises.map((team) =>
-            team._id === updatedteam._id ? updatedteam : team,
-          ),
+        const updatedTeam = response.data
+        setTeams((prevTeams) =>
+          prevTeams.map((team) => (team._id === updatedTeam._id ? updatedTeam : team)),
         )
-        console.log('team updated successfully')
       } else {
         throw new Error('Failed to update team')
       }
@@ -78,15 +56,12 @@ export const CrudProvider = ({ children }) => {
     }
   }
 
+  // Delete team
   const deleteTeam = async (teamId) => {
     try {
-      // Make DELETE request to delete team
-      const response = await axios.delete(`${teamBaseUrl}/deleteteamBy/${teamId}`)
-
+      const response = await axios.delete(`${teamBaseUrl}/teams/delete/${teamId}`)
       if (response.status === 200) {
-        // Remove the deleted team from the state
-        setTeams((prevteams) => prevteams.filter((team) => team._id !== teamId))
-        console.log('team deleted successfully')
+        setTeams((prevTeams) => prevTeams.filter((team) => team._id !== teamId))
       } else {
         throw new Error('Failed to delete team')
       }
@@ -96,7 +71,7 @@ export const CrudProvider = ({ children }) => {
   }
 
   const contextValue = {
-    addteam,
+    addTeam,
     teams,
     fetchTeamData,
     editTeam,

@@ -1,93 +1,64 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
+import { CrudProgramContext } from '../../Context/programContext'
 import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
 
-import Swal from 'sweetalert2'
+const ProgramManagement = () => {
+  const { createProgram, fetchPrograms, deleteProgramById } = useContext(CrudProgramContext)
 
-import { CrudProgramContext } from '../../Context/programContext'
+  const [newProgram, setNewProgram] = useState('') // State for new program input
+  const [searchTerm, setSearchTerm] = useState('') // State for search term
+  const [allPrograms, setAllPrograms] = useState([]) // State for storing all fetched programs
+  const [openSnackbar, setOpenSnackbar] = useState(false) // Snackbar state
+  const [alertMessage, setAlertMessage] = useState('') // Snackbar alert message
 
-const ProgramManage = () => {
-  const { fetchPrograms, createProgram, deleteProgramById } = useContext(CrudProgramContext)
-
-  const [openSnackbar, setOpenSnackbar] = useState(false)
-  const [alertMessage, setAlertMessag] = useState(null)
-
-  const [newprogram, setNewprogram] = useState('')
-
-  const [allPrograms, setAllPrograms] = useState([])
-
-  const [searchTerm, setSearchTerm] = useState('')
-
+  // Fetch programs on component mount
   useEffect(() => {
-    const fetchData = async () => {
-      const fetchedData = await fetchPrograms()
-      setAllPrograms(fetchedData)
-    }
-    fetchData()
+    fetchPrograms()
+      .then((data) => setAllPrograms(data))
+      .catch((error) => console.error('Error fetching programs:', error))
   }, [fetchPrograms])
 
-  const addprogram = async () => {
-    // Validation checks
-    if (!newprogram) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Please enter a program name',
-        showConfirmButton: true,
-        timer: 1500,
-      })
-      return // Exit function if validation fails
+  // Function to add a new program
+  const addProgram = () => {
+    if (!newProgram) {
+      setAlertMessage('Please enter a program name.')
+      setOpenSnackbar(true)
+      return
     }
 
-    let formData = { value: newprogram, label: newprogram }
-
-    try {
-      await createProgram(formData)
-      Swal.fire({
-        icon: 'success',
-        title: 'New program added successfully!',
-        showConfirmButton: false,
-        timer: 1500,
+    createProgram({ value: newProgram, label: newProgram }) // Call createProgram from context
+      .then(() => {
+        setNewProgram('') // Reset input field
+        setAlertMessage('Program added successfully!')
+        setOpenSnackbar(true)
+        window.location.href = '/'
       })
-    } catch (error) {
-      console.error('Error adding program:', error)
-      Swal.fire({
-        icon: 'error',
-        title: 'Failed to add program',
-        text: error.message || 'An unexpected error occurred',
-        showConfirmButton: true,
+      .catch((error) => {
+        console.error('Error adding program:', error)
+        setAlertMessage('Failed to add program.')
+        setOpenSnackbar(true)
       })
-    }
   }
 
-  const handleDeleteprogram = (id) => {
-    if (id) {
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          deleteProgramById(id)
-            .then(() => {
-              Swal.fire({
-                icon: 'success',
-                title: 'program deleted successfully!',
-                showConfirmButton: false,
-                timer: 1500, // Close alert after 1.5 seconds
-              })
-            })
-            .catch((error) => {
-              // Handle errors if needed
-              console.error('Error deleting program:', error)
-            })
-        }
+  // Function to delete a program
+  const handleDeleteProgram = (programId) => {
+    deleteProgramById(programId)
+      .then(() => {
+        setAlertMessage('Program deleted successfully!')
+        setOpenSnackbar(true)
       })
-    }
+      .catch((error) => {
+        console.error('Error deleting program:', error)
+        setAlertMessage('Failed to delete program.')
+        setOpenSnackbar(true)
+      })
   }
+
+  // Filter programs based on search term
+  const filteredPrograms = allPrograms.filter((program) =>
+    program.label.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
 
   return (
     <div
@@ -111,14 +82,8 @@ const ProgramManage = () => {
         Program Management
       </h1>
 
-      <div
-        style={{
-          marginBottom: '16px',
-          display: 'flex',
-          alignItems: 'center',
-          width: '50%',
-        }}
-      >
+      {/* Search Bar */}
+      <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', width: '50%' }}>
         <div style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center' }}>
           <input
             type="text"
@@ -137,19 +102,21 @@ const ProgramManage = () => {
         </div>
       </div>
 
+      {/* Snackbar for alerts */}
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={() => setOpenSnackbar(false)}>
         <Alert onClose={() => setOpenSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
           {alertMessage}
         </Alert>
       </Snackbar>
 
+      {/* Add New Program Form */}
       <div style={{ marginBottom: '32px' }}>
         <div style={{ marginBottom: '16px' }}>
           <input
             name="program"
             type="text"
-            value={newprogram}
-            onChange={(e) => setNewprogram(e.target.value)}
+            value={newProgram}
+            onChange={(e) => setNewProgram(e.target.value)}
             style={{
               width: '100%',
               padding: '12px 16px',
@@ -163,7 +130,7 @@ const ProgramManage = () => {
         </div>
 
         <button
-          onClick={addprogram}
+          onClick={addProgram}
           style={{
             fontSize: '16px',
             fontWeight: '500',
@@ -183,10 +150,11 @@ const ProgramManage = () => {
         </button>
       </div>
 
+      {/* Program List */}
       <div style={{ marginBottom: '32px' }}>
-        {allPrograms?.map((program) => (
+        {filteredPrograms?.map((program) => (
           <div
-            key={program.value}
+            key={program._id}
             style={{
               backgroundColor: '#fff',
               padding: '24px',
@@ -219,7 +187,7 @@ const ProgramManage = () => {
               </span>
 
               <button
-                onClick={() => handleDeleteprogram(program._id)}
+                onClick={() => handleDeleteProgram(program._id)}
                 style={{
                   padding: '8px 12px',
                   backgroundColor: '#dc3545',
@@ -242,4 +210,4 @@ const ProgramManage = () => {
   )
 }
 
-export default ProgramManage
+export default ProgramManagement
