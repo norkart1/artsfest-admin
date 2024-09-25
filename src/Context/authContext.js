@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    const checkTokenExpiration = () => {
+    const checkTokenExpiration = async () => {
       const authToken = localStorage.getItem('authToken')
 
       if (authToken) {
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
 
         if (remainingTime <= 0) {
           // Token has expired, clear it from local storage and redirect to login
-          logout()
+          await logout()
           console.error('session expired')
         }
       }
