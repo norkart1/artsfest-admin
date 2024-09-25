@@ -52,20 +52,28 @@ import { CrudTeamContext } from '../../Context/teamContext'
 import { imageUrl } from '../../Constant/url'
 
 const Dashboard = () => {
-  const { fetchTeamData } = useContext(CrudTeamContext)
-  const [brokers, setBrokers] = useState([])
-  const [loading, setIsLoading] = useState(true)
+  const { fetchTeamData } = useContext(CrudTeamContext);
+  const [teams, setTeams] = useState([]);
+  const [loading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      const fetchedData = await fetchTeamData()
+      const fetchedData = await fetchTeamData();
 
-      const sortedBrokers = fetchedData.sort((a, b) => a.ranking - b.ranking)
-      setBrokers(sortedBrokers)
-      setIsLoading(false) // Set isLoading to false after fetching data
-    }
-    fetchData()
-  }, [fetchTeamData]) // Make sure to include fetchFranchises in the dependency array
+      // Sort teams based on total score in descending order
+      const sortedTeams = fetchedData.sort((a, b) => b.totalScore - a.totalScore);
+
+      // Assign ranking based on the sorted order
+      const rankedTeams = sortedTeams.map((team, index) => ({
+        ...team,
+        ranking: index + 1, // Assign rank based on position
+      }));
+
+      setTeams(rankedTeams);
+      setIsLoading(false); // Set isLoading to false after fetching data
+    };
+    fetchData();
+  }, [fetchTeamData]);
 
   return (
     <>
@@ -84,19 +92,8 @@ const Dashboard = () => {
                       <CIcon icon={cibSuperuser} />
                     </CTableHeaderCell>
                     <CTableHeaderCell className="bg-body-tertiary">Team</CTableHeaderCell>
-                    {/* <CTableHeaderCell className="bg-body-tertiary text-center">
-                      Country
-                    </CTableHeaderCell> */}
-                    {/* <CTableHeaderCell className="bg-body-tertiary">Usage</CTableHeaderCell> */}
-                    <CTableHeaderCell className="bg-body-tertiary text-center">
-                      Rank
-                    </CTableHeaderCell>
-
-                    <CTableHeaderCell className="bg-body-tertiary text-center">
-                      Score
-                    </CTableHeaderCell>
-                    {/*                     
-                    <CTableHeaderCell className="bg-body-tertiary text-center">Link</CTableHeaderCell> */}
+                    <CTableHeaderCell className="bg-body-tertiary text-center">Rank</CTableHeaderCell>
+                    <CTableHeaderCell className="bg-body-tertiary text-center">Total Score</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
@@ -122,27 +119,19 @@ const Dashboard = () => {
                         </CTableRow>
                       ))
                     : // Render actual data once it's loaded
-                      brokers.slice(0, 10).map((item, index) => (
+                      teams.slice(0, 10).map((item, index) => (
                         <CTableRow key={index}>
                           <CTableDataCell>{item._id}</CTableDataCell>
                           <CTableDataCell className="text-center">
                             <CAvatar size="md" src={`${imageUrl}/${item.image}`} />
                           </CTableDataCell>
                           <CTableDataCell>{item.name}</CTableDataCell>
-                          {/* <CTableDataCell className="text-center">{item.location}</CTableDataCell> */}
                           <CTableDataCell className="text-center">
-                            <div className="fw-semibold">{item.ranking}</div>
+                            <div className="fw-semibold">{item.ranking}</div> {/* Show calculated rank */}
                           </CTableDataCell>
-
                           <CTableDataCell className="text-center">
-                            <div className="fw-semibold">{item.score}</div>
+                            <div className="fw-semibold">{item.totalScore}</div>
                           </CTableDataCell>
-                          {/* <CTableDataCell className="text-center">
-       
-      <a href={item.link} target="_blank" rel="noopener noreferrer">
-        {item.link}
-      </a>
-    </CTableDataCell> */}
                         </CTableRow>
                       ))}
                 </CTableBody>
@@ -152,7 +141,8 @@ const Dashboard = () => {
         </CCol>
       </CRow>
     </>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;
+
