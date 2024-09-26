@@ -185,6 +185,7 @@ const AddTeamToProgram = () => {
             onChange={(e) => setScore(e.target.value)}
             required
             min="0"
+            step="0.01" // Allows floating point numbers
             style={inputStyle}
           />
         </div>
