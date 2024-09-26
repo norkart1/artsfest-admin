@@ -98,7 +98,8 @@ const AddBrokerForm = ({ open, setOpen }) => {
 
     // const isScoreValid = validateScore(formData.score)
 
-    if (!isNameValid) {
+    if (!isNameValid || formData.image === null) {
+      alert('Image not found');
       return
     }
 

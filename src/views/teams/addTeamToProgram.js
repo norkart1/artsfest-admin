@@ -1,60 +1,87 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import { teamBaseUrl } from '../../Constant/url'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { teamBaseUrl } from '../../Constant/url';
+import Swal from 'sweetalert2';
+
+
 
 const AddTeamToProgram = () => {
-  const [teams, setTeams] = useState([])
-  const [programs, setPrograms] = useState([])
-  const [selectedTeam, setSelectedTeam] = useState('')
-  const [selectedProgram, setSelectedProgram] = useState('')
-  const [score, setScore] = useState('')
-  const [rank, setRank] = useState('')
-  
-  const [message, setMessage] = useState('')
+  const [teams, setTeams] = useState([]);
+  const [programs, setPrograms] = useState([]);
+  const [selectedTeam, setSelectedTeam] = useState('');
+  const [selectedProgram, setSelectedProgram] = useState('');
+  const [score, setScore] = useState('');
+  const [rank, setRank] = useState('');
+  const [isSingle, setIsSingle] = useState(false);
+  const [isGroup, setIsGroup] = useState(false);
+  const [message, setMessage] = useState('');
 
-  // Fetch teams and programs when the component mounts
   useEffect(() => {
-    fetchTeams()
-    fetchPrograms()
-  }, [])
+    fetchTeams();
+    fetchPrograms();
+  }, []);
 
   const fetchTeams = async () => {
     try {
-      const response = await axios.get(`${teamBaseUrl}/getAllteams`) // Update the endpoint as per your API
-      setTeams(response.data)
+      const response = await axios.get(`${teamBaseUrl}/getAllteams`);
+      setTeams(response.data);
     } catch (error) {
-      console.error('Error fetching teams:', error)
+      console.error('Error fetching teams:', error);
     }
-  }
+  };
 
   const fetchPrograms = async () => {
     try {
-      const response = await axios.get(`${teamBaseUrl}/getAllPrograms`) // Update the endpoint as per your API
-      setPrograms(response.data)
+      const response = await axios.get(`${teamBaseUrl}/getAllPrograms`);
+      setPrograms(response.data);
     } catch (error) {
-      console.error('Error fetching programs:', error)
+      console.error('Error fetching programs:', error);
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-
+    e.preventDefault();
+  
     // Construct the request payload
     const payload = {
       teamId: selectedTeam,
       programId: selectedProgram,
-      score: parseInt(score), // Ensure the score is an integer
-      rank:parseInt(rank),
-    }
-
+      score: parseInt(score),
+      rank: parseInt(rank),
+      isSingle,
+      isGroup,
+    };
+  
     try {
-      const response = await axios.post(`${teamBaseUrl}/addTeamToProgram`, payload) // Update the endpoint as per your API
-      setMessage(response.data.message)
+      const response = await axios.post(`${teamBaseUrl}/addTeamToProgram`, payload);
+  
+      // If successful, show success alert
+      Swal.fire({
+        title: 'Success!',
+        text: 'Team added to program successfully!',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+  
+      setMessage(response.data.message);
+      setScore("");
+      setIsGroup(false);
+      setIsSingle(false);
+      setScore("");
+      setRank("");
     } catch (error) {
-      console.error('Error adding team to program:', error)
-      setMessage('Error adding team to program.')
+      console.error('Error adding team to program:', error);
+      setMessage('Error adding team to program.');
+  
+      // If error occurs, show error alert
+      Swal.fire({
+        title: 'Error!',
+        text: 'There was a problem adding the team to the program.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
     }
-  }
+  };
 
   const containerStyle = {
     maxWidth: '600px',
@@ -64,18 +91,18 @@ const AddTeamToProgram = () => {
     borderRadius: '8px',
     backgroundColor: '#f9f9f9',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-  }
+  };
 
   const formGroupStyle = {
     marginBottom: '15px',
-  }
+  };
 
   const labelStyle = {
     display: 'block',
     fontSize: '16px',
     fontWeight: '500',
     marginBottom: '8px',
-  }
+  };
 
   const inputStyle = {
     width: '100%',
@@ -84,7 +111,11 @@ const AddTeamToProgram = () => {
     border: '1px solid #ccc',
     borderRadius: '4px',
     boxSizing: 'border-box',
-  }
+  };
+
+  const checkboxStyle = {
+    marginRight: '10px',
+  };
 
   const buttonStyle = {
     width: '100%',
@@ -97,18 +128,18 @@ const AddTeamToProgram = () => {
     borderRadius: '4px',
     cursor: 'pointer',
     transition: 'background-color 0.3s',
-  }
+  };
 
   const buttonHoverStyle = {
     backgroundColor: '#45a049',
-  }
+  };
 
   const messageStyle = {
     marginTop: '20px',
     fontSize: '16px',
     fontWeight: 'bold',
     color: message.includes('Error') ? 'red' : 'green',
-  }
+  };
 
   return (
     <div style={containerStyle}>
@@ -161,7 +192,7 @@ const AddTeamToProgram = () => {
         </div>
 
         <div style={formGroupStyle}>
-          <label style={labelStyle}>Finalize Rank</label>
+          <label style={labelStyle}>Rank</label>
           <input
             type="number"
             value={rank}
@@ -170,6 +201,31 @@ const AddTeamToProgram = () => {
             min="0"
             style={inputStyle}
           />
+        </div>
+
+        {/* Add isSingle and isGroup checkboxes */}
+        <div style={formGroupStyle}>
+          <label style={labelStyle}>Team Type</label>
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                checked={isSingle}
+                onChange={(e) => setIsSingle(e.target.checked)}
+                style={checkboxStyle}
+              />
+              Is Single
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={isGroup}
+                onChange={(e) => setIsGroup(e.target.checked)}
+                style={checkboxStyle}
+              />
+              Is Group
+            </label>
+          </div>
         </div>
 
         <button
@@ -184,7 +240,7 @@ const AddTeamToProgram = () => {
 
       {message && <p style={messageStyle}>{message}</p>}
     </div>
-  )
-}
+  );
+};
 
-export default AddTeamToProgram
+export default AddTeamToProgram;

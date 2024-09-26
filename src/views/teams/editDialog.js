@@ -92,9 +92,12 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
     e.preventDefault()
     const isNameValid = validateName(formData.name)
 
-    if (!isNameValid) {
+   
+    if (!isNameValid || formData.image === null) {
+      alert('Image not found');
       return
     }
+
 
     try {
       const formDataToSend = new FormData()
