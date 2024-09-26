@@ -8,6 +8,8 @@ const AddTeamToProgram = () => {
   const [selectedTeam, setSelectedTeam] = useState('')
   const [selectedProgram, setSelectedProgram] = useState('')
   const [score, setScore] = useState('')
+  const [rank, setRank] = useState('')
+  
   const [message, setMessage] = useState('')
 
   // Fetch teams and programs when the component mounts
@@ -42,6 +44,7 @@ const AddTeamToProgram = () => {
       teamId: selectedTeam,
       programId: selectedProgram,
       score: parseInt(score), // Ensure the score is an integer
+      rank:parseInt(rank),
     }
 
     try {
@@ -151,6 +154,18 @@ const AddTeamToProgram = () => {
             type="number"
             value={score}
             onChange={(e) => setScore(e.target.value)}
+            required
+            min="0"
+            style={inputStyle}
+          />
+        </div>
+
+        <div style={formGroupStyle}>
+          <label style={labelStyle}>Finalize Rank</label>
+          <input
+            type="number"
+            value={rank}
+            onChange={(e) => setRank(e.target.value)}
             required
             min="0"
             style={inputStyle}

@@ -42,7 +42,7 @@ export const CrudProvider = ({ children }) => {
   // Edit team
   const editTeam = async (teamId, updatedData) => {
     try {
-      const response = await axios.put(`${teamBaseUrl}/teams/update/${teamId}`, updatedData)
+      const response = await axios.put(`${teamBaseUrl}/updateteamBy/${teamId}`, updatedData)
       if (response.status === 200) {
         const updatedTeam = response.data
         setTeams((prevTeams) =>
@@ -59,7 +59,7 @@ export const CrudProvider = ({ children }) => {
   // Delete team
   const deleteTeam = async (teamId) => {
     try {
-      const response = await axios.delete(`${teamBaseUrl}/teams/delete/${teamId}`)
+      const response = await axios.delete(`${teamBaseUrl}/deleteteamBy/${teamId}`)
       if (response.status === 200) {
         setTeams((prevTeams) => prevTeams.filter((team) => team._id !== teamId))
       } else {

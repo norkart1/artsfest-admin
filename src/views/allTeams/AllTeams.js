@@ -27,9 +27,16 @@ function AllBrokers() {
   useEffect(() => {
     const fetchData = async () => {
       const fetchedData = await fetchTeamData()
-      //const sortedBrokers = fetchedData.sort((a, b) => a.ranking - b.ranking)
+      
+      const sortedTeams = fetchedData.sort((a, b) => b.totalScore - a.totalScore);
 
-      setBrokers(fetchedData)
+      // Assign ranking based on the sorted order
+      const rankedTeams = sortedTeams.map((team, index) => ({
+        ...team,
+        ranking: index + 1, // Assign rank based on position
+      }));
+
+      setBrokers(rankedTeams)
       setIsLoading(false) // Set isLoading to false after fetching data
     }
     fetchData()
@@ -90,12 +97,12 @@ function AllBrokers() {
                     <CAvatar size="md" src={`${imageUrl}/${item.image}`} />
                   </CTableDataCell>
                   <CTableDataCell>{item.name}</CTableDataCell>
-                  {/* <CTableDataCell className="text-center">{item.location}</CTableDataCell> */}
+                  
                   <CTableDataCell className="text-center">
                     <div className="fw-semibold">{item.ranking}</div>
                   </CTableDataCell>
                   <CTableDataCell className="text-center">
-                    <div className="fw-semibold">{item.score}</div>
+                    <div className="fw-semibold">{item.totalScore}</div>
                   </CTableDataCell>
                   {/* <CTableDataCell className="text-center">
                   
