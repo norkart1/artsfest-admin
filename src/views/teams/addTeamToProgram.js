@@ -78,7 +78,7 @@ const AddTeamToProgram = () => {
       teamId: selectedTeam,
       programId: selectedProgram,
       score: parseFloat(score), // Allows both integers and floats
-      rank: parseInt(rank), // Keeps rank as an integer
+      //rank: parseInt(rank), // Keeps rank as an integer
       isSingle,
       isGroup,
     }
@@ -307,7 +307,7 @@ const AddTeamToProgram = () => {
           />
         </div>
 
-        <div className="form-group">
+        {/* <div className="form-group">
           <label className="label">Rank</label>
           <input
             type="number"
@@ -317,7 +317,7 @@ const AddTeamToProgram = () => {
             min="0"
             className="input"
           />
-        </div>
+        </div> */}
 
         <div className="form-group">
           <label className="label">Team Type</label>

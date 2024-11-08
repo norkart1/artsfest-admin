@@ -32,7 +32,6 @@ const ProgramManagement = () => {
         setNewProgram('') // Reset input field
         setAlertMessage('Program added successfully!')
         setOpenSnackbar(true)
-        window.location.href = '/'
       })
       .catch((error) => {
         console.error('Error adding program:', error)
