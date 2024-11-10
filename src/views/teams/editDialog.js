@@ -26,7 +26,7 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
   const [formData, setFormData] = useState({
     name: '',
 
-    image: null,
+    //image: null,
     imagePreviewUrl: '',
     // link: '',
     // location: '',
@@ -91,30 +91,25 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
   const handleEdit = (e) => {
     e.preventDefault()
     const isNameValid = validateName(formData.name)
-
-   
-    if (!isNameValid || formData.image === null) {
-      alert('Image not found');
+    if (!isNameValid) {
       return
     }
 
 
     try {
-      const formDataToSend = new FormData()
-      for (let key in formData) {
-        formDataToSend.append(key, formData[key])
-      }
+      // const formDataToSend = new FormData()
+      // for (let key in formData) {
+      //   formDataToSend.append(key, formData[key])
+      // }
 
-      editTeam(brokersData._id, formDataToSend)
+      editTeam(brokersData._id, formData)
 
       // Reset form after submission
       setFormData({
         name: '',
-
-        image: null,
       })
 
-      setImagePreview(null)
+      //setImagePreview(null)
       setOpen(false)
     } catch (error) {
       console.error('Error adding Broker:', error)
@@ -172,7 +167,7 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
               {nameError}
             </Typography>
 
-            <input
+            {/* <input
               type="file"
               accept="image/*"
               name="image"
@@ -186,8 +181,8 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
                 alt="Preview"
                 style={{ maxWidth: '50%', maxHeight: '50%', height: 'auto', marginTop: 8 }}
               />
-            )}
-            <label htmlFor="upload-image">
+            )} */}
+            {/* <label htmlFor="upload-image">
               <Button
                 variant="outlined"
                 startIcon={<Image />}
@@ -197,7 +192,7 @@ const EditDialog = ({ brokersData, setOpen, open }) => {
               >
                 Update Image
               </Button>
-            </label>
+            </label> */}
 
             <Button
               onClick={handleDeleteConfirmation}

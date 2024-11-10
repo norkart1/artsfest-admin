@@ -15,7 +15,7 @@ import Pagination from 'react-js-pagination' // Import pagination component
 
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { imageUrl } from '../../Constant/url'
+import logo from '../../assets/images/logo.jpg'
 
 function AllBrokers() {
   const { fetchTeamData } = useContext(CrudTeamContext)
@@ -94,7 +94,7 @@ function AllBrokers() {
               brokers.slice(startIndex, endIndex).map((item, index) => (
                 <CTableRow key={index}>
                   <CTableDataCell className="text-center">
-                    <CAvatar size="md" src={`${imageUrl}/${item.image}`} />
+                    <CAvatar size="md" src={logo} />
                   </CTableDataCell>
                   <CTableDataCell>{item.name}</CTableDataCell>
                   
